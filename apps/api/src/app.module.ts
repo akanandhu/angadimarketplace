@@ -9,6 +9,7 @@ import { LocationsModule } from './locations/locations.module';
 import { MediaUrlModule } from './media/media-url.service';
 import { MediaModule } from './media/media.module';
 import { MediaStorageModule } from './media/storage/media-storage.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { QueueModule } from './queue/queue.module';
 import { RedisModule } from './redis/redis.module';
@@ -35,6 +36,7 @@ const features = [
   MediaModule,
   SearchModule,
   FavouritesModule,
+  NotificationsModule,
 ];
 
 @Module({
