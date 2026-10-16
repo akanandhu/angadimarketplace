@@ -11,7 +11,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsx prisma/seed/index.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:e2e": "jest --config jest.e2e.config.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1152.0",
@@ -45,9 +46,11 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",
+    "@types/supertest": "^7.2.1",
     "dotenv": "^18.0.8",
     "jest": "^30.5.2",
     "prisma": "7.10.1",
+    "supertest": "^7.3.1",
     "ts-jest": "^29.4.15",
     "tsx": "^4.23.15",
     "typescript": "~5.9.3"
