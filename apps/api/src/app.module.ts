@@ -16,6 +16,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { QueueModule } from './queue/queue.module';
 import { RedisModule } from './redis/redis.module';
+import { ReportsModule } from './reports/reports.module';
 import { SearchModule } from './search/search.module';
 import { UsersModule } from './users/users.module';
 import { VehicleCatalogueModule } from './vehicle-catalogue/vehicle-catalogue.module';
@@ -43,6 +44,7 @@ const features = [
   ContactConnectionsModule,
   ContactRequestsModule,
   DealersModule,
+  ReportsModule,
 ];
 
 @Module({
