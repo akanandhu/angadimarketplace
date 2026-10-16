@@ -14,7 +14,7 @@ const POPULAR = [
 /** Internal links double as SEO discovery paths. */
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-line bg-surface pb-24 md:pb-0">
+    <footer className="mt-16 border-t border-line bg-surface">
       <div className="mx-auto grid max-w-[1320px] gap-8 px-4 py-10 md:grid-cols-3 md:px-6">
         <div className="space-y-3">
           <Logo />

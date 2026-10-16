@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import { BottomNav } from '@/components/layout/bottom-nav';
+import { PublicOnly } from '@/components/layout/public-only';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { SiteHeader } from '@/components/layout/site-header';
 import { AppProviders } from '@/components/providers/app-providers';
@@ -28,11 +29,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en-IN" className={inter.variable}>
-      <body className="min-h-dvh">
+      <body className="min-h-dvh pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
         <AppProviders>
           <SiteHeader />
           <main>{children}</main>
-          <SiteFooter />
+          <PublicOnly>
+            <SiteFooter />
+          </PublicOnly>
           <BottomNav />
         </AppProviders>
       </body>

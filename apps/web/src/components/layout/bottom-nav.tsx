@@ -19,8 +19,8 @@ export function BottomNav() {
   const pathname = usePathname();
   const router = useRouter();
   const { requireAuth } = useAuth();
-  // Listing pages show their own sticky contact bar instead.
-  const hidden = pathname.startsWith('/car/') || pathname.startsWith('/listing');
+  // Listing pages and the sell wizard have their own sticky action bars.
+  const hidden = ['/car/', '/listing', '/sell'].some((prefix) => pathname.startsWith(prefix));
   const go = (href: string, needsAuth: boolean) =>
     needsAuth ? requireAuth(() => router.push(href)) : router.push(href);
 
