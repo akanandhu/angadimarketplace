@@ -3,6 +3,7 @@ import { Capacitor } from '@capacitor/core';
 type Listener = (token: string | null) => void;
 
 const REFRESH_KEY = 'angadi.refresh';
+const SESSION_HINT_KEY = 'angadi.has-session';
 let accessToken: string | null = null;
 const listeners = new Set<Listener>();
 
@@ -14,6 +15,7 @@ export const tokenStore = {
 
   setAccess(token: string | null) {
     accessToken = token;
+    this.setSessionHint(Boolean(token));
     listeners.forEach((listener) => listener(token));
   },
 
@@ -23,6 +25,28 @@ export const tokenStore = {
   },
 
   isNative: () => Capacitor.isNativePlatform(),
+
+  /**
+   * Web-only hint (not a secret) that a refresh cookie may exist, so visitors who
+   * never logged in skip the pointless refresh call.
+   */
+  mayHaveSession(): boolean {
+    if (Capacitor.isNativePlatform()) return true;
+    try {
+      return localStorage.getItem(SESSION_HINT_KEY) === '1';
+    } catch {
+      return true;
+    }
+  },
+
+  setSessionHint(present: boolean) {
+    try {
+      if (present) localStorage.setItem(SESSION_HINT_KEY, '1');
+      else localStorage.removeItem(SESSION_HINT_KEY);
+    } catch {
+      // Storage unavailable (private mode); the refresh call is merely attempted.
+    }
+  },
 
   async getRefresh(): Promise<string | undefined> {
     if (!Capacitor.isNativePlatform()) return undefined;

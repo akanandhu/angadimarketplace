@@ -46,6 +46,7 @@ let refreshing: Promise<string | null> | null = null;
 
 /** Single-flight refresh shared by every request that hits a 401. */
 export function refreshSession(): Promise<string | null> {
+  if (!tokenStore.mayHaveSession()) return Promise.resolve(null);
   refreshing ??= (async () => {
     try {
       const refreshToken = await tokenStore.getRefresh();

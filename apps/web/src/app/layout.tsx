@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-dvh">
         <AppProviders>
           <SiteHeader />
-          <main className="pb-24 md:pb-0">{children}</main>
+          <main>{children}</main>
           <SiteFooter />
           <BottomNav />
         </AppProviders>

@@ -42,7 +42,7 @@ export function validateEnv(raw: Record<string, unknown>): Env {
   return {
     NODE_ENV: str('NODE_ENV', 'development'),
     PORT: num('PORT', 4000),
-    WEB_ORIGIN: str('WEB_ORIGIN', 'http://localhost:3000'),
+    WEB_ORIGIN: str('WEB_ORIGIN', 'http://localhost:3200'),
     DATABASE_URL: str('DATABASE_URL'),
     REDIS_URL: str('REDIS_URL'),
     JWT_ACCESS_SECRET: str('JWT_ACCESS_SECRET'),

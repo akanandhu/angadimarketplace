@@ -26,8 +26,16 @@ export function SearchBar({ initialQuery = '', initialDistrict = '', className, 
   };
 
   return (
-    <form onSubmit={submit} role="search" className={cn('flex w-full gap-2', className)}>
-      <div className="relative min-w-0 flex-1">
+    <form
+      onSubmit={submit}
+      role="search"
+      className={cn(
+        'grid w-full gap-2 text-ink',
+        compact ? 'grid-cols-[1fr_auto] lg:grid-cols-[1fr_10rem_auto]' : 'grid-cols-[1fr_auto] sm:grid-cols-[1fr_11rem_auto]',
+        className,
+      )}
+    >
+      <div className="relative min-w-0">
         <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted" />
         <input
           type="search"
@@ -44,12 +52,17 @@ export function SearchBar({ initialQuery = '', initialDistrict = '', className, 
         value={district}
         onChange={setDistrict}
         placeholder="All Kerala"
-        className={cn('w-36 shrink-0', compact ? 'hidden lg:block' : 'sm:w-44')}
+        className={cn(
+          compact ? 'hidden lg:block' : 'col-span-2 row-start-2 sm:col-span-1 sm:row-start-auto',
+        )}
       />
       <button
         type="submit"
         aria-label="Search"
-        className="flex h-11 shrink-0 items-center gap-2 rounded-button bg-ink px-4 text-sm font-semibold text-white hover:bg-ink-soft"
+        className={cn(
+          'flex h-11 shrink-0 items-center gap-2 rounded-button px-4 text-sm font-semibold text-white',
+          compact ? 'bg-ink hover:bg-ink-soft' : 'bg-brand hover:bg-brand-strong',
+        )}
       >
         <Search className="size-4" aria-hidden />
         {!compact && <span className="hidden sm:inline">Search</span>}

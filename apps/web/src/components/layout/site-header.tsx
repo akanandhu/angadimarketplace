@@ -37,7 +37,7 @@ export function SiteHeader() {
     <header className="safe-top sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1320px] items-center gap-4 px-4 md:px-6">
         <Logo />
-        <SearchBar compact className="hidden max-w-2xl md:flex" />
+        <SearchBar compact className="hidden max-w-2xl md:grid" />
         <nav className="ml-auto flex items-center gap-1" aria-label="Account">
           <Link
             href={routes.favourites()}
