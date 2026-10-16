@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AppConfigModule } from './config/config.module';
 import { HealthController } from './health/health.controller';
+import { ListingsModule } from './listings/listings.module';
 import { LocationsModule } from './locations/locations.module';
 import { MediaUrlModule } from './media/media-url.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -18,6 +19,7 @@ const features = [
   LocationsModule,
   CategoriesModule,
   VehicleCatalogueModule,
+  ListingsModule,
 ];
 
 @Module({
