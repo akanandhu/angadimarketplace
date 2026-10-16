@@ -4,6 +4,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { ContactConnectionsModule } from './contact-connections/contact-connections.module';
 import { ContactRequestsModule } from './contact-requests/contact-requests.module';
 import { AppConfigModule } from './config/config.module';
+import { DealersModule } from './dealers/dealers.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { HealthController } from './health/health.controller';
 import { ListingsModule } from './listings/listings.module';
@@ -41,6 +42,7 @@ const features = [
   NotificationsModule,
   ContactConnectionsModule,
   ContactRequestsModule,
+  DealersModule,
 ];
 
 @Module({
