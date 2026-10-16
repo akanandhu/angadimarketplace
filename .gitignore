@@ -12,3 +12,5 @@ apps/api/src/generated/
 apps/web/android/
 apps/web/ios/
 .turbo/
+next-env.d.ts
+*.tsbuildinfo

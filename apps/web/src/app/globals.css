@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+/* Angadi design tokens. Provisional palette: navy, Kerala green, muted gold, warm off-white. */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #102a43;
+  --color-ink-soft: #243b53;
+  --color-brand: #1f7a4d;
+  --color-brand-strong: #17603c;
+  --color-brand-soft: #e7f3ec;
+  --color-gold: #c9971c;
+  --color-gold-soft: #fbf3dc;
+  --color-canvas: #faf7f2;
+  --color-surface: #ffffff;
+  --color-line: #e6e1d8;
+  --color-line-strong: #d3ccbf;
+  --color-muted: #5f6b7a;
+  --color-success: #15803d;
+  --color-success-soft: #e8f5ec;
+  --color-warning: #b45309;
+  --color-warning-soft: #fdf1e2;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fdecec;
+
+  --radius-input: 9px;
+  --radius-card: 12px;
+  --radius-button: 9px;
+
+  --shadow-card: 0 1px 2px rgb(16 42 67 / 0.06);
+  --shadow-raised: 0 8px 24px rgb(16 42 67 / 0.12);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-canvas text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+}
+
+@utility safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility safe-top {
+  padding-top: env(safe-area-inset-top);
+}

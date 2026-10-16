@@ -13,3 +13,6 @@ onlyBuiltDependencies:
 
 ignoredBuiltDependencies:
   - '@scarf/scarf'
+  - core-js
+  - '@firebase/util'
+  - protobufjs
