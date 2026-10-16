@@ -31,7 +31,9 @@ export function SearchBar({ initialQuery = '', initialDistrict = '', className, 
       role="search"
       className={cn(
         'grid w-full gap-2 text-ink',
-        compact ? 'grid-cols-[1fr_auto] lg:grid-cols-[1fr_10rem_auto]' : 'grid-cols-[1fr_auto] sm:grid-cols-[1fr_11rem_auto]',
+        compact
+          ? 'grid-cols-[1fr_auto] lg:grid-cols-[1fr_10rem_auto]'
+          : 'grid-cols-[1fr_auto] sm:grid-cols-[1fr_11rem_auto]',
         className,
       )}
     >
