@@ -9,6 +9,7 @@ onlyBuiltDependencies:
   - '@parcel/watcher'
   - unrs-resolver
   - msgpackr-extract
+  - sharp
 
 ignoredBuiltDependencies:
   - '@scarf/scarf'

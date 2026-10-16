@@ -1,0 +1,27 @@
+{
+  "name": "@angadi/image-processor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Validates, orients, strips and resizes listing photos. Runs as AWS Lambda (SQS) or a local BullMQ worker.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/local-worker.ts",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1152.0",
+    "bullmq": "^6.3.15",
+    "dotenv": "^18.0.8",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.164",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.19.2",
+    "jest": "^30.5.2",
+    "ts-jest": "^29.4.15",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3"
+  }
+}
