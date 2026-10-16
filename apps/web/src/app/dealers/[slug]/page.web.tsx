@@ -10,7 +10,9 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const loadDealer = cache((slug: string) => serverGet<DealerPublic>(`/dealers/${encodeURIComponent(slug)}`));
+const loadDealer = cache((slug: string) =>
+  serverGet<DealerPublic>(`/dealers/${encodeURIComponent(slug)}`),
+);
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -28,7 +30,10 @@ export default async function DealerPage({ params }: Props) {
   const { slug } = await params;
   const [dealer, listings] = await Promise.all([
     loadDealer(slug),
-    serverGet<ListingCard[]>(`/dealers/${encodeURIComponent(slug)}/listings`, { page: 1, limit: 20 }),
+    serverGet<ListingCard[]>(`/dealers/${encodeURIComponent(slug)}/listings`, {
+      page: 1,
+      limit: 20,
+    }),
   ]);
   if (dealer.status !== 200 || !dealer.body?.data) notFound();
   return (

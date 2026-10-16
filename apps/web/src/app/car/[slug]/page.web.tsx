@@ -12,7 +12,9 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const load = cache((slug: string) => serverGet<ListingDetail>(`/listings/${encodeURIComponent(slug)}`));
+const load = cache((slug: string) =>
+  serverGet<ListingDetail>(`/listings/${encodeURIComponent(slug)}`),
+);
 
 function describe(listing: ListingDetail) {
   const car = listing.car;
@@ -23,14 +25,19 @@ function describe(listing: ListingDetail) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const { status, body } = await load(slug);
-  if (status !== 200 || !body?.data) return { title: 'Car not available', robots: { index: false } };
+  if (status !== 200 || !body?.data)
+    return { title: 'Car not available', robots: { index: false } };
   const listing = body.data;
   const image = listing.images[0]?.urls.detail;
   return {
     title: `${listing.title} — ${formatPrice(listing.price)}`,
     description: describe(listing),
     alternates: { canonical: routes.listing(slug) },
-    openGraph: { title: listing.title, description: describe(listing), images: image ? [image] : [] },
+    openGraph: {
+      title: listing.title,
+      description: describe(listing),
+      images: image ? [image] : [],
+    },
   };
 }
 
@@ -46,7 +53,9 @@ function JsonLd({ listing }: { listing: ListingDetail }) {
     model: car?.model.name,
     vehicleModelDate: car?.manufacturingYear,
     fuelType: car ? label(car.fuelType) : undefined,
-    mileageFromOdometer: car ? { '@type': 'QuantitativeValue', value: car.kmDriven, unitCode: 'KMT' } : undefined,
+    mileageFromOdometer: car
+      ? { '@type': 'QuantitativeValue', value: car.kmDriven, unitCode: 'KMT' }
+      : undefined,
     offers: {
       '@type': 'Offer',
       price: listing.price,
@@ -55,13 +64,16 @@ function JsonLd({ listing }: { listing: ListingDetail }) {
       areaServed: listing.district?.name,
     },
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  return (
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+  );
 }
 
 export default async function CarPage({ params }: Props) {
   const { slug } = await params;
   const { status, body } = await load(slug);
-  if (status === 410) return <UnavailableListingState info={body?.error?.details as UnavailableListing} />;
+  if (status === 410)
+    return <UnavailableListingState info={body?.error?.details as UnavailableListing} />;
   if (status !== 200 || !body?.data) notFound();
   return (
     <>
