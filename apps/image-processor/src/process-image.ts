@@ -3,12 +3,20 @@ import { config } from './config';
 import { reportResult } from './report-result';
 import { InvalidImageError, transformImage } from './transform';
 
+const UUID = '[0-9a-f-]{36}';
 /** listings/{listingId}/{imageId}/source.{ext} */
-const SOURCE_KEY = /^(listings\/[0-9a-f-]{36}\/([0-9a-f-]{36}))\/source\.(jpg|png|webp)$/;
+const LISTING_SOURCE = new RegExp(`^(listings/${UUID}/(${UUID}))/source\\.(jpg|png|webp)$`);
+/** users/{userId}/{avatar|logo}/{imageId}/source.{ext} */
+const USER_SOURCE = new RegExp(`^(users/${UUID}/(?:avatar|logo)/(${UUID}))/source\\.(jpg|png|webp)$`);
+
+export type ImageOwner = 'listing' | 'user';
 
 export function parseSourceKey(key: string) {
-  const match = SOURCE_KEY.exec(key);
-  return match ? { storageKey: match[1], imageId: match[2] } : null;
+  const listing = LISTING_SOURCE.exec(key);
+  if (listing) return { storageKey: listing[1], imageId: listing[2], owner: 'listing' as const };
+  const user = USER_SOURCE.exec(key);
+  if (user) return { storageKey: user[1], imageId: user[2], owner: 'user' as const };
+  return null;
 }
 
 /**
@@ -37,13 +45,13 @@ export async function processSourceObject(s3: S3Client, sourceKey: string): Prom
         ),
       ),
     );
-    await reportResult(parsed.imageId, {
+    await reportResult(parsed.owner, parsed.imageId, {
       status: 'READY',
       width: result.width,
       height: result.height,
     });
   } catch (error) {
     if (!(error instanceof InvalidImageError)) throw error;
-    await reportResult(parsed.imageId, { status: 'FAILED', failureReason: error.message });
+    await reportResult(parsed.owner, parsed.imageId, { status: 'FAILED', failureReason: error.message });
   }
 }

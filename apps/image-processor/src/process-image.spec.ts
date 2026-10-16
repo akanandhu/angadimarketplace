@@ -8,7 +8,17 @@ describe('parseSourceKey', () => {
     expect(parseSourceKey(`listings/${id}/${img}/source.jpg`)).toEqual({
       storageKey: `listings/${id}/${img}`,
       imageId: img,
+      owner: 'listing',
     });
+  });
+
+  it('recognises profile photos and dealer logos', () => {
+    expect(parseSourceKey(`users/${id}/logo/${img}/source.png`)).toEqual({
+      storageKey: `users/${id}/logo/${img}`,
+      imageId: img,
+      owner: 'user',
+    });
+    expect(parseSourceKey(`users/${id}/other/${img}/source.png`)).toBeNull();
   });
 
   it('ignores generated variants to avoid processing loops', () => {
