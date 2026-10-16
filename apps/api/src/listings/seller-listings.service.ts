@@ -3,6 +3,7 @@ import { AppException } from '../common/errors/app.exception';
 import { ErrorCode } from '../common/errors/error-codes';
 import { Paginated } from '../common/pagination/paginated';
 import { MediaUrlService } from '../media/media-url.service';
+import { MediaCleanupService } from '../media/storage/media-cleanup.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { MyListingsQueryDto, UpdateListingDto } from './dto/seller-listing.dto';
 import { ListingAccessService } from './listing-access.service';
@@ -21,6 +22,7 @@ export class SellerListingsService {
     private readonly access: ListingAccessService,
     private readonly publisher: ListingPublisherService,
     private readonly media: MediaUrlService,
+    private readonly cleanup: MediaCleanupService,
   ) {}
 
   async createDraft(userId: string, categoryCode: string): Promise<SellerListingView> {
@@ -111,10 +113,10 @@ export class SellerListingsService {
   }
 
   /** Drafts were never public, so they can be deleted outright. */
-  async deleteDraft(listingId: string, userId: string): Promise<string[]> {
-    const listing = await this.access.findOwned(listingId, userId, ['DRAFT']);
+  async deleteDraft(listingId: string, userId: string): Promise<void> {
+    await this.access.findOwned(listingId, userId, ['DRAFT']);
     await this.prisma.listing.delete({ where: { id: listingId } });
-    return listing.images.map((image) => image.storageKey);
+    await this.cleanup.deletePrefix(`listings/${listingId}/`);
   }
 
   async stats(listingId: string, userId: string) {
