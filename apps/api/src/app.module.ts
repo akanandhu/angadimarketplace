@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ContactConnectionsModule } from './contact-connections/contact-connections.module';
@@ -45,6 +46,7 @@ const features = [
   ContactRequestsModule,
   DealersModule,
   ReportsModule,
+  AdminModule,
 ];
 
 @Module({
