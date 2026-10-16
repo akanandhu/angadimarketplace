@@ -1,11 +1,10 @@
 export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 
+/** HEIC is intentionally absent: clients convert to JPEG before upload. */
 const EXTENSIONS: Record<string, string> = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
   'image/webp': 'webp',
-  'image/heic': 'heic',
-  'image/heif': 'heif',
 };
 
 export const ALLOWED_IMAGE_TYPES = Object.keys(EXTENSIONS);
