@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AdminModule } from './admin/admin.module';
+import { AnalyticsModule } from './analytics/analytics.service';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ContactConnectionsModule } from './contact-connections/contact-connections.module';
@@ -31,6 +32,7 @@ const infrastructure = [
   MediaUrlModule,
   MediaStorageModule,
   ThrottlingModule,
+  AnalyticsModule,
 ];
 
 const features = [

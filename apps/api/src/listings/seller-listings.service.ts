@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AnalyticsService } from '../analytics/analytics.service';
 import { AppException } from '../common/errors/app.exception';
 import { ErrorCode } from '../common/errors/error-codes';
 import { Paginated } from '../common/pagination/paginated';
@@ -23,6 +24,7 @@ export class SellerListingsService {
     private readonly publisher: ListingPublisherService,
     private readonly media: MediaUrlService,
     private readonly cleanup: MediaCleanupService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
   async createDraft(userId: string, categoryCode: string): Promise<SellerListingView> {
@@ -99,6 +101,7 @@ export class SellerListingsService {
       where: { id: listingId },
       data: { status: 'SOLD', soldAt: new Date() },
     });
+    this.analytics.capture(userId, 'listing_marked_sold', { listingId });
     return this.get(listingId, userId);
   }
 

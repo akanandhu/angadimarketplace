@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AnalyticsService } from '../analytics/analytics.service';
 import { AppException } from '../common/errors/app.exception';
 import { ErrorCode } from '../common/errors/error-codes';
 import { ContactConnectionsService } from '../contact-connections/contact-connections.service';
@@ -22,6 +23,7 @@ export class ContactRequestCommandsService {
     private readonly prisma: PrismaService,
     private readonly connections: ContactConnectionsService,
     private readonly notifications: NotificationsService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
   async create(buyerId: string, dto: CreateContactRequestDto) {
@@ -95,6 +97,10 @@ export class ContactRequestCommandsService {
         return { request, notifications };
       });
       await this.notifications.push(notifications);
+      this.analytics.capture(buyerId, 'contact_request_sent', {
+        listingId: listing.id,
+        allowSellerToContact: dto.allowSellerToContact,
+      });
       return { id: request.id, status: request.status, createdAt: request.createdAt };
     } catch (error) {
       // The partial unique index closes the race between two concurrent submissions.

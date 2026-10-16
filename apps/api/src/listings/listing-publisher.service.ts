@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AnalyticsService } from '../analytics/analytics.service';
 import { AppException } from '../common/errors/app.exception';
 import { ErrorCode } from '../common/errors/error-codes';
 import { PrismaService } from '../prisma/prisma.service';
@@ -12,6 +13,7 @@ export class ListingPublisherService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly access: ListingAccessService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
   /** Validates a draft and atomically makes it ACTIVE with derived title/slug/searchText. */
@@ -62,6 +64,11 @@ export class ListingPublisherService {
     if (count === 0) {
       throw AppException.conflict(ErrorCode.LISTING_NOT_DRAFT, 'Listing was already published');
     }
+    this.analytics.capture(userId, 'listing_published', {
+      listingId,
+      brand: text.brand,
+      model: text.model,
+    });
   }
 
   /**

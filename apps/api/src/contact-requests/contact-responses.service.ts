@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AnalyticsService } from '../analytics/analytics.service';
 import { ContactConnectionsService } from '../contact-connections/contact-connections.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -19,6 +20,7 @@ export class ContactResponsesService {
     private readonly prisma: PrismaService,
     private readonly connections: ContactConnectionsService,
     private readonly notifications: NotificationsService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
   /**
@@ -67,6 +69,7 @@ export class ContactResponsesService {
       ]);
     });
     await this.notifications.push(notifications);
+    this.analytics.capture(sellerId, 'contact_request_approved', { requestId });
     return { id: requestId, status: 'APPROVED' as const };
   }
 
@@ -99,6 +102,7 @@ export class ContactResponsesService {
       ]);
     });
     await this.notifications.push(notifications);
+    this.analytics.capture(sellerId, 'contact_request_rejected', { requestId, reason: dto.reason });
     return { id: requestId, status: 'REJECTED' as const };
   }
 }

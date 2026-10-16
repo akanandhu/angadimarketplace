@@ -19,6 +19,8 @@ export interface Env {
   MEDIA_LOCAL_PROCESSING: boolean;
   INTERNAL_API_SECRET: string;
   FIREBASE_SERVICE_ACCOUNT_JSON: string;
+  POSTHOG_API_KEY: string;
+  POSTHOG_HOST: string;
 }
 
 const REQUIRED = [
@@ -57,5 +59,7 @@ export function validateEnv(raw: Record<string, unknown>): Env {
     MEDIA_LOCAL_PROCESSING: str('MEDIA_LOCAL_PROCESSING') === 'true',
     INTERNAL_API_SECRET: str('INTERNAL_API_SECRET'),
     FIREBASE_SERVICE_ACCOUNT_JSON: str('FIREBASE_SERVICE_ACCOUNT_JSON'),
+    POSTHOG_API_KEY: str('POSTHOG_API_KEY'),
+    POSTHOG_HOST: str('POSTHOG_HOST', 'https://eu.i.posthog.com'),
   };
 }
