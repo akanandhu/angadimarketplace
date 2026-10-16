@@ -1,3 +1,14 @@
 packages:
   - apps/*
   - packages/*
+
+onlyBuiltDependencies:
+  - '@prisma/engines'
+  - prisma
+  - esbuild
+  - '@parcel/watcher'
+  - unrs-resolver
+  - msgpackr-extract
+
+ignoredBuiltDependencies:
+  - '@scarf/scarf'
