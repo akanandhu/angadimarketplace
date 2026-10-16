@@ -1,0 +1,60 @@
+enum FuelType {
+  PETROL
+  DIESEL
+  CNG
+  ELECTRIC
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
+}
+
+enum AccidentHistory {
+  NO
+  MINOR
+  MAJOR
+}
+
+enum InsuranceType {
+  COMPREHENSIVE
+  THIRD_PARTY
+  EXPIRED
+}
+
+/// Car-specific data for a Listing. Invariant (SQL CHECK): variant_id OR variant_text is set.
+model CarDetails {
+  listingId           String           @id @map("listing_id") @db.Uuid
+  brandId             String           @map("brand_id") @db.Uuid
+  modelId             String           @map("model_id") @db.Uuid
+  variantId           String?          @map("variant_id") @db.Uuid
+  variantText         String?          @map("variant_text")
+  manufacturingYear   Int              @map("manufacturing_year")
+  fuelType            FuelType         @map("fuel_type")
+  transmission        Transmission
+  kmDriven            Int              @map("km_driven")
+  numberOfOwners      Int              @map("number_of_owners")
+  /// Normalised full registration, e.g. KL07AB1234. Never returned publicly.
+  registrationNumber  String           @map("registration_number")
+  /// Public RTO portion, e.g. KL07.
+  rtoCode             String           @map("rto_code")
+  accidentHistory     AccidentHistory? @map("accident_history")
+  hasMajorReplacement Boolean?         @map("has_major_replacement")
+  replacementDetails  String?          @map("replacement_details")
+  colour              String?
+  insuranceType       InsuranceType?   @map("insurance_type")
+  insuranceValidUntil DateTime?        @map("insurance_valid_until") @db.Date
+  createdAt           DateTime         @default(now()) @map("created_at")
+  updatedAt           DateTime         @updatedAt @map("updated_at")
+
+  listing Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  brand   VehicleBrand    @relation(fields: [brandId], references: [id])
+  model   VehicleModel    @relation(fields: [modelId], references: [id])
+  variant VehicleVariant? @relation(fields: [variantId], references: [id])
+
+  @@index([brandId, modelId])
+  @@index([manufacturingYear])
+  @@index([kmDriven])
+  @@index([fuelType, transmission])
+  @@map("car_details")
+}

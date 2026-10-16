@@ -1,0 +1,122 @@
+model Category {
+  id        String   @id @default(uuid()) @db.Uuid
+  /// Stable code used by clients, e.g. CARS.
+  code      String   @unique
+  name      String
+  slug      String   @unique
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  listings Listing[]
+
+  @@map("categories")
+}
+
+model VehicleBrand {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String   @unique
+  logoKey   String?  @map("logo_key")
+  sortOrder Int      @default(100) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  models       VehicleModel[]
+  externalRefs VehicleBrandExternalRef[]
+  carDetails   CarDetails[]
+
+  @@map("vehicle_brands")
+}
+
+model VehicleModel {
+  id        String   @id @default(uuid()) @db.Uuid
+  brandId   String   @map("brand_id") @db.Uuid
+  name      String
+  slug      String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  brand        VehicleBrand              @relation(fields: [brandId], references: [id])
+  variants     VehicleVariant[]
+  externalRefs VehicleModelExternalRef[]
+  carDetails   CarDetails[]
+
+  @@unique([brandId, slug])
+  @@map("vehicle_models")
+}
+
+model VehicleVariant {
+  id           String        @id @default(uuid()) @db.Uuid
+  modelId      String        @map("model_id") @db.Uuid
+  name         String
+  fuelType     FuelType?     @map("fuel_type")
+  transmission Transmission?
+  isActive     Boolean       @default(true) @map("is_active")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  model        VehicleModel                @relation(fields: [modelId], references: [id])
+  externalRefs VehicleVariantExternalRef[]
+  carDetails   CarDetails[]
+
+  @@unique([modelId, name])
+  @@map("vehicle_variants")
+}
+
+/// An external catalogue provider. Provider IDs never leak into listings.
+model CatalogueSource {
+  id        String   @id @default(uuid()) @db.Uuid
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  brandRefs   VehicleBrandExternalRef[]
+  modelRefs   VehicleModelExternalRef[]
+  variantRefs VehicleVariantExternalRef[]
+
+  @@map("catalogue_sources")
+}
+
+model VehicleBrandExternalRef {
+  id         String   @id @default(uuid()) @db.Uuid
+  brandId    String   @map("brand_id") @db.Uuid
+  sourceId   String   @map("source_id") @db.Uuid
+  externalId String   @map("external_id")
+  lastSeenAt DateTime @default(now()) @map("last_seen_at")
+
+  brand  VehicleBrand    @relation(fields: [brandId], references: [id])
+  source CatalogueSource @relation(fields: [sourceId], references: [id])
+
+  @@unique([sourceId, externalId])
+  @@map("vehicle_brand_external_refs")
+}
+
+model VehicleModelExternalRef {
+  id         String   @id @default(uuid()) @db.Uuid
+  modelId    String   @map("model_id") @db.Uuid
+  sourceId   String   @map("source_id") @db.Uuid
+  externalId String   @map("external_id")
+  lastSeenAt DateTime @default(now()) @map("last_seen_at")
+
+  model  VehicleModel    @relation(fields: [modelId], references: [id])
+  source CatalogueSource @relation(fields: [sourceId], references: [id])
+
+  @@unique([sourceId, externalId])
+  @@map("vehicle_model_external_refs")
+}
+
+model VehicleVariantExternalRef {
+  id         String   @id @default(uuid()) @db.Uuid
+  variantId  String   @map("variant_id") @db.Uuid
+  sourceId   String   @map("source_id") @db.Uuid
+  externalId String   @map("external_id")
+  lastSeenAt DateTime @default(now()) @map("last_seen_at")
+
+  variant VehicleVariant  @relation(fields: [variantId], references: [id])
+  source  CatalogueSource @relation(fields: [sourceId], references: [id])
+
+  @@unique([sourceId, externalId])
+  @@map("vehicle_variant_external_refs")
+}

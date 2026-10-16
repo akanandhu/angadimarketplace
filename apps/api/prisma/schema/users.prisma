@@ -1,0 +1,109 @@
+enum AccountType {
+  INDIVIDUAL
+  DEALER
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum ClientType {
+  WEB
+  MOBILE
+}
+
+enum DevicePlatform {
+  ANDROID
+  IOS
+  WEB
+}
+
+model User {
+  id                        String      @id @default(uuid()) @db.Uuid
+  /// E.164 verified phone. Never exposed through public APIs.
+  phone                     String      @unique
+  name                      String?
+  accountType               AccountType @default(INDIVIDUAL) @map("account_type")
+  role                      UserRole    @default(USER)
+  status                    UserStatus  @default(ACTIVE)
+  districtId                String?     @map("district_id") @db.Uuid
+  profileImageKey           String?     @map("profile_image_key")
+  defaultAllowSellerContact Boolean     @default(false) @map("default_allow_seller_contact")
+  suspendedAt               DateTime?   @map("suspended_at")
+  suspensionReason          String?     @map("suspension_reason")
+  createdAt                 DateTime    @default(now()) @map("created_at")
+  updatedAt                 DateTime    @updatedAt @map("updated_at")
+
+  district         District?           @relation(fields: [districtId], references: [id])
+  dealerProfile    DealerProfile?
+  sessions         UserSession[]
+  devices          UserDevice[]
+  listings         Listing[]
+  favourites       Favourite[]
+  buyerRequests    ContactRequest[]    @relation("BuyerRequests")
+  sellerRequests   ContactRequest[]    @relation("SellerRequests")
+  buyerConnections ContactConnection[] @relation("BuyerConnections")
+  sellerConnection ContactConnection[] @relation("SellerConnections")
+  notifications    Notification[]
+  reports          ListingReport[]     @relation("ReportsFiled")
+  resolvedReports  ListingReport[]     @relation("ReportsResolved")
+
+  @@index([status])
+  @@map("users")
+}
+
+model DealerProfile {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @unique @map("user_id") @db.Uuid
+  businessName String   @map("business_name")
+  slug         String   @unique
+  logoKey      String?  @map("logo_key")
+  districtId   String?  @map("district_id") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  district District? @relation(fields: [districtId], references: [id])
+
+  @@map("dealer_profiles")
+}
+
+model UserSession {
+  id               String     @id @default(uuid()) @db.Uuid
+  userId           String     @map("user_id") @db.Uuid
+  /// SHA-256 of the current refresh secret; rotated on every refresh.
+  refreshTokenHash String     @map("refresh_token_hash")
+  clientType       ClientType @map("client_type")
+  userAgent        String?    @map("user_agent")
+  expiresAt        DateTime   @map("expires_at")
+  revokedAt        DateTime?  @map("revoked_at")
+  lastUsedAt       DateTime   @default(now()) @map("last_used_at")
+  createdAt        DateTime   @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_sessions")
+}
+
+model UserDevice {
+  id               String         @id @default(uuid()) @db.Uuid
+  userId           String         @map("user_id") @db.Uuid
+  platform         DevicePlatform
+  deviceIdentifier String         @map("device_identifier")
+  pushToken        String         @map("push_token")
+  lastSeenAt       DateTime       @default(now()) @map("last_seen_at")
+  createdAt        DateTime       @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, deviceIdentifier])
+  @@index([pushToken])
+  @@map("user_devices")
+}

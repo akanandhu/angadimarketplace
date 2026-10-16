@@ -1,0 +1,64 @@
+enum NotificationType {
+  CONTACT_REQUEST_RECEIVED
+  CONTACT_REQUEST_APPROVED
+  CONTACT_REQUEST_REJECTED
+  LISTING_REMOVED_BY_ADMIN
+  LISTING_RESTORED_BY_ADMIN
+  ACCOUNT_SUSPENDED
+  ACCOUNT_UNSUSPENDED
+}
+
+enum ReportReason {
+  FAKE
+  SUSPECTED_SCAM
+  INCORRECT_INFORMATION
+  DUPLICATE
+  ALREADY_SOLD
+  INAPPROPRIATE
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+  DISMISSED
+}
+
+model Notification {
+  id        String           @id @default(uuid()) @db.Uuid
+  userId    String           @map("user_id") @db.Uuid
+  type      NotificationType
+  title     String
+  body      String
+  /// Navigation hints for clients, e.g. { listingId, requestId }.
+  data      Json?
+  readAt    DateTime?        @map("read_at")
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+/// One OPEN report per (listing, reporter) is enforced by a partial unique index.
+model ListingReport {
+  id             String       @id @default(uuid()) @db.Uuid
+  listingId      String       @map("listing_id") @db.Uuid
+  reporterId     String       @map("reporter_id") @db.Uuid
+  reason         ReportReason
+  details        String?
+  status         ReportStatus @default(OPEN)
+  resolvedById   String?      @map("resolved_by_id") @db.Uuid
+  resolutionNote String?      @map("resolution_note")
+  resolvedAt     DateTime?    @map("resolved_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  listing    Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  reporter   User    @relation("ReportsFiled", fields: [reporterId], references: [id])
+  resolvedBy User?   @relation("ReportsResolved", fields: [resolvedById], references: [id])
+
+  @@index([status, createdAt(sort: Desc)])
+  @@index([listingId])
+  @@map("listing_reports")
+}

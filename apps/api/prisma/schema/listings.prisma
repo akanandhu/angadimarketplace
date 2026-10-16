@@ -1,0 +1,102 @@
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  SOLD
+  REMOVED
+}
+
+enum ImageStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+/// Category-agnostic marketplace item. Category data hangs off it (CarDetails, ...).
+model Listing {
+  id             String        @id @default(uuid()) @db.Uuid
+  sellerId       String        @map("seller_id") @db.Uuid
+  categoryId     String        @map("category_id") @db.Uuid
+  districtId     String?       @map("district_id") @db.Uuid
+  status         ListingStatus @default(DRAFT)
+  title          String?
+  slug           String?       @unique
+  description    String?
+  /// Integer INR.
+  price          Int?
+  isNegotiable   Boolean       @default(false) @map("is_negotiable")
+  searchText     String?       @map("search_text")
+  publishedAt    DateTime?     @map("published_at")
+  soldAt         DateTime?     @map("sold_at")
+  removedAt      DateTime?     @map("removed_at")
+  removedByAdmin Boolean       @default(false) @map("removed_by_admin")
+  removalReason  String?       @map("removal_reason")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  seller          User             @relation(fields: [sellerId], references: [id])
+  category        Category         @relation(fields: [categoryId], references: [id])
+  district        District?        @relation(fields: [districtId], references: [id])
+  carDetails      CarDetails?
+  images          ListingImage[]
+  stats           ListingStats?
+  favourites      Favourite[]
+  contactRequests ContactRequest[]
+  reports         ListingReport[]
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([status, price])
+  @@index([status, districtId])
+  @@index([sellerId, status])
+  @@map("listings")
+}
+
+model ListingImage {
+  id               String      @id @default(uuid()) @db.Uuid
+  listingId        String      @map("listing_id") @db.Uuid
+  status           ImageStatus @default(UPLOADING)
+  position         Int
+  /// Logical prefix, e.g. listings/{listingId}/{imageId}. Variants live beneath it.
+  storageKey       String      @map("storage_key")
+  mimeType         String      @map("mime_type")
+  sizeBytes        Int         @map("size_bytes")
+  originalFileName String?     @map("original_file_name")
+  width            Int?
+  height           Int?
+  failureReason    String?     @map("failure_reason")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId, position])
+  @@map("listing_images")
+}
+
+/// Angadi-owned product metrics (source of truth, not analytics).
+model ListingStats {
+  listingId            String   @id @map("listing_id") @db.Uuid
+  viewCount            Int      @default(0) @map("view_count")
+  favouriteCount       Int      @default(0) @map("favourite_count")
+  contactRequestCount  Int      @default(0) @map("contact_request_count")
+  contactApprovalCount Int      @default(0) @map("contact_approval_count")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@map("listing_stats")
+}
+
+model Favourite {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  listingId String   @map("listing_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("favourites")
+}
