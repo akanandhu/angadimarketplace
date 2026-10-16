@@ -21,7 +21,7 @@ export function presentMe(user: UserWithProfile, media: MediaUrlService) {
     district: user.district
       ? { id: user.district.id, name: user.district.name, slug: user.district.slug }
       : null,
-    profileImageUrl: media.url(user.profileImageKey),
+    profileImageUrl: media.image(user.profileImageKey),
     defaultAllowSellerContact: user.defaultAllowSellerContact,
     memberSince: user.createdAt.toISOString(),
     isProfileComplete: Boolean(user.name && user.districtId),
@@ -29,7 +29,7 @@ export function presentMe(user: UserWithProfile, media: MediaUrlService) {
       ? {
           businessName: user.dealerProfile.businessName,
           slug: user.dealerProfile.slug,
-          logoUrl: media.url(user.dealerProfile.logoKey),
+          logoUrl: media.image(user.dealerProfile.logoKey),
           districtId: user.dealerProfile.districtId,
         }
       : null,

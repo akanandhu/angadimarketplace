@@ -28,7 +28,7 @@ export class DealersService {
     return {
       businessName: profile.businessName,
       slug: profile.slug,
-      logoUrl: this.media.url(profile.logoKey),
+      logoUrl: this.media.image(profile.logoKey),
       district: profile.district
         ? { id: profile.district.id, name: profile.district.name, slug: profile.district.slug }
         : null,
@@ -69,7 +69,7 @@ export class DealersService {
       sellerId: profile.userId,
       slug: profile.slug,
       businessName: profile.businessName,
-      logoUrl: this.media.url(profile.logoKey),
+      logoUrl: this.media.image(profile.logoKey),
       district: profile.district
         ? { name: profile.district.name, slug: profile.district.slug }
         : null,

@@ -12,6 +12,11 @@ export class MediaUrlService {
     return key ? `${this.config.get('CDN_BASE_URL')}/${key}` : null;
   }
 
+  /** Processed variant of an optional image prefix (profile photos, dealer logos). */
+  image(storageKey: string | null | undefined, variant: ImageVariant = 'card'): string | null {
+    return storageKey ? this.variant(storageKey, variant) : null;
+  }
+
   variant(storageKey: string, variant: ImageVariant): string {
     return `${this.config.get('CDN_BASE_URL')}/${storageKey}/${variant}.webp`;
   }

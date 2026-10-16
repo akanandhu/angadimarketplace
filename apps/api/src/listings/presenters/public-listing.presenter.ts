@@ -11,7 +11,7 @@ export function presentPublicSeller(seller: PublicSeller, media: MediaUrlService
     type: dealer ? ('DEALER' as const) : ('INDIVIDUAL' as const),
     displayName: dealer?.businessName ?? seller.name ?? 'Angadi seller',
     dealerSlug: dealer?.slug ?? null,
-    logoUrl: dealer ? media.url(dealer.logoKey) : null,
+    logoUrl: dealer ? media.image(dealer.logoKey, 'thumb') : null,
     district: seller.district,
     memberSince: seller.createdAt.toISOString(),
   };
