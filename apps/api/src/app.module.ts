@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ContactConnectionsModule } from './contact-connections/contact-connections.module';
+import { ContactRequestsModule } from './contact-requests/contact-requests.module';
 import { AppConfigModule } from './config/config.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { HealthController } from './health/health.controller';
@@ -37,6 +39,8 @@ const features = [
   SearchModule,
   FavouritesModule,
   NotificationsModule,
+  ContactConnectionsModule,
+  ContactRequestsModule,
 ];
 
 @Module({
