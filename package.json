@@ -3,10 +3,19 @@
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "scripts": {
+    "infra:up": "docker compose up -d",
+    "db:migrate": "pnpm --filter @angadi/api exec prisma migrate deploy",
+    "db:seed": "pnpm --filter @angadi/api prisma:seed",
     "dev:api": "pnpm --filter @angadi/api start:dev",
+    "dev:worker": "pnpm --filter @angadi/image-processor dev",
     "dev:web": "pnpm --filter @angadi/web dev",
     "build": "pnpm -r build",
-    "lint": "pnpm -r lint",
-    "test": "pnpm -r test"
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm --filter @angadi/api test:e2e",
+    "format": "prettier --write \"apps/*/src/**/*.{ts,tsx}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10"
   }
 }
