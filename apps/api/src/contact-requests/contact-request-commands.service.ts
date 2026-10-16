@@ -27,10 +27,16 @@ export class ContactRequestCommandsService {
   async create(buyerId: string, dto: CreateContactRequestDto) {
     const listing = await this.prisma.listing.findUnique({
       where: { id: dto.listingId },
-      select: { id: true, sellerId: true, status: true, title: true },
+      select: {
+        id: true,
+        sellerId: true,
+        status: true,
+        title: true,
+        seller: { select: { status: true } },
+      },
     });
     if (!listing) throw AppException.notFound(ErrorCode.LISTING_NOT_FOUND, 'Listing not found');
-    if (listing.status !== 'ACTIVE') {
+    if (listing.status !== 'ACTIVE' || listing.seller.status !== 'ACTIVE') {
       throw AppException.conflict(ErrorCode.LISTING_NOT_ACTIVE, 'This car is no longer available');
     }
     if (listing.sellerId === buyerId) {

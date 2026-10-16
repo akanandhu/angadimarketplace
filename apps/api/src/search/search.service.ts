@@ -54,7 +54,7 @@ export class SearchService {
     });
     if (!listing) throw AppException.notFound(ErrorCode.LISTING_NOT_FOUND, 'Listing not found');
 
-    if (listing.status !== 'ACTIVE') {
+    if (listing.status !== 'ACTIVE' || listing.seller.status !== 'ACTIVE') {
       // Old/shared links get a clear "no longer available" state, never private details.
       throw new AppException(
         ErrorCode.LISTING_NOT_ACTIVE,

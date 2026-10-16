@@ -25,6 +25,7 @@ export function buildListingWhere(
 
   return {
     status: 'ACTIVE',
+    seller: { status: 'ACTIVE' },
     category: { code: query.category.toUpperCase() },
     districtId: query.districtId,
     district: query.districtSlug ? { slug: query.districtSlug } : undefined,

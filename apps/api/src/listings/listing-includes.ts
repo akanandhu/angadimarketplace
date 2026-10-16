@@ -22,6 +22,7 @@ export const PUBLIC_SELLER_SELECT = {
   id: true,
   name: true,
   accountType: true,
+  status: true,
   createdAt: true,
   district: { select: { name: true, slug: true } },
   dealerProfile: { select: { businessName: true, slug: true, logoKey: true } },
