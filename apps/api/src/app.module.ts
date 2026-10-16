@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AppConfigModule } from './config/config.module';
+import { FavouritesModule } from './favourites/favourites.module';
 import { HealthController } from './health/health.controller';
 import { ListingsModule } from './listings/listings.module';
 import { LocationsModule } from './locations/locations.module';
@@ -33,6 +34,7 @@ const features = [
   ListingsModule,
   MediaModule,
   SearchModule,
+  FavouritesModule,
 ];
 
 @Module({
