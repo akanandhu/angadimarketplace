@@ -73,7 +73,9 @@ export function BrowseScreen({ filters, initialData, heading, intro }: Props) {
           <h1 className="text-xl font-bold md:text-2xl">{title}</h1>
           {intro && <p className="text-sm text-muted">{intro}</p>}
           <p className="text-sm text-muted" aria-live="polite">
-            {results.data ? `${formatNumber(results.data.meta.total)} ${results.data.meta.total === 1 ? 'listing' : 'listings'}` : 'Loading…'}
+            {results.data
+              ? `${formatNumber(results.data.meta.total)} ${results.data.meta.total === 1 ? 'listing' : 'listings'}`
+              : 'Loading…'}
           </p>
         </header>
 

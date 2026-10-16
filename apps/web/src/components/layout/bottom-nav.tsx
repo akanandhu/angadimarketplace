@@ -19,6 +19,8 @@ export function BottomNav() {
   const pathname = usePathname();
   const router = useRouter();
   const { requireAuth } = useAuth();
+  // Listing pages show their own sticky contact bar instead.
+  const hidden = pathname.startsWith('/car/') || pathname.startsWith('/listing');
   const go = (href: string, needsAuth: boolean) =>
     needsAuth ? requireAuth(() => router.push(href)) : router.push(href);
 
@@ -44,6 +46,7 @@ export function BottomNav() {
     );
   };
 
+  if (hidden) return null;
   return (
     <nav
       aria-label="Main"

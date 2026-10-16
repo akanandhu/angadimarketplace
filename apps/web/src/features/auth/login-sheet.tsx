@@ -12,7 +12,11 @@ type Step =
   | { name: 'otp'; phone: string; request: OtpRequestResult }
   | { name: 'profile'; me: Me };
 
-const TITLES = { phone: 'Log in or sign up', otp: 'Verify your number', profile: 'Complete your profile' };
+const TITLES = {
+  phone: 'Log in or sign up',
+  otp: 'Verify your number',
+  profile: 'Complete your profile',
+};
 
 interface Props {
   open: boolean;

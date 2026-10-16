@@ -37,7 +37,9 @@ export function ListingCard({ listing, unavailable, eager }: Props) {
         </div>
         <div className="min-w-0 flex-1 space-y-1 p-3 pr-11 min-[480px]:pr-3">
           <p className="text-base font-bold min-[480px]:text-lg">{formatPrice(listing.price)}</p>
-          <h3 className="line-clamp-2 text-sm font-medium min-[480px]:truncate min-[480px]:text-[15px]">{listing.title}</h3>
+          <h3 className="line-clamp-2 text-sm font-medium min-[480px]:truncate min-[480px]:text-[15px]">
+            {listing.title}
+          </h3>
           <p className="truncate text-xs text-muted min-[480px]:text-sm">{specs.join(' · ')}</p>
           <div className="flex items-center justify-between gap-2 pt-1 text-xs text-muted">
             <span className="truncate">{listing.district?.name}</span>
@@ -51,7 +53,11 @@ export function ListingCard({ listing, unavailable, eager }: Props) {
         </div>
       </Link>
       {!unavailable && (
-        <SaveButton listingId={listing.id} saved={listing.isSaved} className="absolute top-2 right-2" />
+        <SaveButton
+          listingId={listing.id}
+          saved={listing.isSaved}
+          className="absolute top-2 right-2"
+        />
       )}
     </article>
   );

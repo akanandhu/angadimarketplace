@@ -65,7 +65,11 @@ export function HomeScreen({ initialRecent }: { initialRecent?: Page<Card> }) {
             Your number stays private. You choose who gets your contact.
           </p>
         </div>
-        <Button variant="secondary" size="lg" onClick={() => requireAuth(() => router.push(routes.sell()))}>
+        <Button
+          variant="secondary"
+          size="lg"
+          onClick={() => requireAuth(() => router.push(routes.sell()))}
+        >
           Sell your car
         </Button>
       </section>

@@ -13,7 +13,6 @@ const BRANDS = [
   ['Renault', 'renault'],
 ] as const;
 
-
 export function BrowseByBrand() {
   return (
     <section aria-labelledby="brands-heading">

@@ -1,7 +1,15 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { refreshSession } from '@/lib/api/client';
 import { authApi, meApi } from '@/lib/api/endpoints/auth';
 import type { Me } from '@/lib/api/types';
@@ -53,14 +61,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         : 'loading'
       : 'anonymous';
 
-  const requireAuth = useCallback(
-    (action?: () => void) => {
-      if (tokenStore.access) return action?.();
-      pending.current = action;
-      setLoginOpen(true);
-    },
-    [],
-  );
+  const requireAuth = useCallback((action?: () => void) => {
+    if (tokenStore.access) return action?.();
+    pending.current = action;
+    setLoginOpen(true);
+  }, []);
 
   const logout = useCallback(async () => {
     await authApi.logout();
