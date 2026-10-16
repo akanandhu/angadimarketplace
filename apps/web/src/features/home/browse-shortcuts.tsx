@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { routes } from '@/lib/routes';
+import { KERALA_DISTRICTS } from '@/lib/search/districts';
 
 const BRANDS = [
   ['Maruti Suzuki', 'maruti-suzuki'],
@@ -12,22 +13,6 @@ const BRANDS = [
   ['Renault', 'renault'],
 ] as const;
 
-export const DISTRICTS = [
-  ['Ernakulam', 'ernakulam'],
-  ['Thiruvananthapuram', 'thiruvananthapuram'],
-  ['Kozhikode', 'kozhikode'],
-  ['Thrissur', 'thrissur'],
-  ['Kottayam', 'kottayam'],
-  ['Malappuram', 'malappuram'],
-  ['Kollam', 'kollam'],
-  ['Kannur', 'kannur'],
-  ['Palakkad', 'palakkad'],
-  ['Alappuzha', 'alappuzha'],
-  ['Pathanamthitta', 'pathanamthitta'],
-  ['Idukki', 'idukki'],
-  ['Wayanad', 'wayanad'],
-  ['Kasaragod', 'kasaragod'],
-] as const;
 
 export function BrowseByBrand() {
   return (
@@ -66,7 +51,7 @@ export function BrowseByDistrict() {
         Browse by district
       </h2>
       <div className="-mx-4 grid auto-cols-max grid-flow-col grid-rows-2 gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex md:flex-wrap md:px-0">
-        {DISTRICTS.map(([name, slug]) => (
+        {KERALA_DISTRICTS.map(({ name, slug }) => (
           <Link
             key={slug}
             href={routes.browse({ districtSlug: slug })}
