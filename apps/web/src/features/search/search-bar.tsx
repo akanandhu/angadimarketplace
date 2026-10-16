@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { DistrictSelect } from '@/features/catalogue/district-select';
 import { cn } from '@/lib/cn';
+import { track } from '@/lib/analytics';
 import { routes } from '@/lib/routes';
 
 interface Props {
@@ -22,6 +23,7 @@ export function SearchBar({ initialQuery = '', initialDistrict = '', className, 
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
+    track('search_performed', { q: q.trim(), district });
     router.push(routes.browse({ q: q.trim() || undefined, districtSlug: district || undefined }));
   };
 

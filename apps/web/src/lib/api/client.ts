@@ -76,7 +76,12 @@ async function request(path: string, options: RequestOptions = {}) {
   const body = await res.json().catch(() => null);
   if (!res.ok) {
     const error = body?.error ?? {};
-    throw new ApiError(res.status, error.code ?? 'UNKNOWN', error.message ?? 'Request failed', error.details);
+    throw new ApiError(
+      res.status,
+      error.code ?? 'UNKNOWN',
+      error.message ?? 'Request failed',
+      error.details,
+    );
   }
   return body;
 }

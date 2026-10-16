@@ -8,6 +8,7 @@ import { ErrorState, Skeleton } from '@/components/ui/feedback';
 import { useAuth } from '@/features/auth/auth-provider';
 import { ContactCta } from '@/features/contact/contact-cta';
 import { SaveButton } from '@/features/favourites/save-button';
+import { track } from '@/lib/analytics';
 import { listingsApi } from '@/lib/api/endpoints/listings';
 import { errorMessage, isApiError } from '@/lib/api/errors';
 import type { ListingDetail, UnavailableListing } from '@/lib/api/types';
@@ -40,7 +41,9 @@ export function ListingDetailScreen({
   const listing = detail.data;
 
   useEffect(() => {
-    if (listing?.id) void listingsApi.recordView(listing.id);
+    if (!listing?.id) return;
+    void listingsApi.recordView(listing.id);
+    track('listing_viewed', { listingId: listing.id });
   }, [listing?.id]);
 
   if (detail.isError) {

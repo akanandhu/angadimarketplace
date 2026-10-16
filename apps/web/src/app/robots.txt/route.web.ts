@@ -1,6 +1,15 @@
 import { SITE_URL } from '@/lib/env';
 
-const PRIVATE = ['/admin', '/sell', '/my-listings', '/requests', '/favourites', '/notifications', '/profile', '/login'];
+const PRIVATE = [
+  '/admin',
+  '/sell',
+  '/my-listings',
+  '/requests',
+  '/favourites',
+  '/notifications',
+  '/profile',
+  '/login',
+];
 // Query-string screens used by the mobile build duplicate the SEO pages.
 const DUPLICATES = ['/search', '/listing', '/dealer?'];
 

@@ -17,7 +17,15 @@ interface SheetProps {
 }
 
 /** Bottom sheet on mobile, centred modal on larger screens. Esc and backdrop close it. */
-export function Sheet({ open, onClose, title, description, children, footer, size = 'md' }: SheetProps) {
+export function Sheet({
+  open,
+  onClose,
+  title,
+  description,
+  children,
+  footer,
+  size = 'md',
+}: SheetProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
 

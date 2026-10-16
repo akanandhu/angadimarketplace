@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { track } from '@/lib/analytics';
 import { ListingPatch, sellerApi } from '@/lib/api/endpoints/seller';
 import { errorMessage } from '@/lib/api/errors';
 import type { StepProps } from './step-props';
@@ -15,6 +16,7 @@ export function useSaveListing({ listing, onSaved, next }: StepProps) {
     setError(undefined);
     try {
       onSaved(await sellerApi.update(listing.id, patch));
+      track('listing_draft_saved', { listingId: listing.id, fields: Object.keys(patch) });
       next();
     } catch (err) {
       setError(errorMessage(err));

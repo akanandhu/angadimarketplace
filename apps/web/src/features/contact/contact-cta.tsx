@@ -5,6 +5,7 @@ import { Clock, Lock } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
+import { track } from '@/lib/analytics';
 import { contactApi } from '@/lib/api/endpoints/contact';
 import type { ContactState, ListingDetail } from '@/lib/api/types';
 import { daysUntil } from '@/lib/format';
@@ -45,8 +46,10 @@ export function ContactCta({ listing }: { listing: ListingDetail }) {
         queryKey: keys.contactState(listing.seller.id, listing.id),
         queryFn: () => contactApi.state(listing.seller.id, listing.id),
       });
-      if (fresh.state === 'NOT_CONNECTED' && fresh.canRequest) setSheetOpen(true);
-      else if (fresh.state === 'CONNECTED')
+      if (fresh.state === 'NOT_CONNECTED' && fresh.canRequest) {
+        track('contact_request_started', { listingId: listing.id });
+        setSheetOpen(true);
+      } else if (fresh.state === 'CONNECTED')
         toast('You are already connected with this seller', 'info');
     });
 

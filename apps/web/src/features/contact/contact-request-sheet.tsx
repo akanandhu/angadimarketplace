@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/toggle';
 import { Sheet } from '@/components/ui/sheet';
 import { CarImage } from '@/features/listings/car-image';
+import { track } from '@/lib/analytics';
 import { contactApi } from '@/lib/api/endpoints/contact';
 import { errorMessage } from '@/lib/api/errors';
 import type { ListingDetail } from '@/lib/api/types';
@@ -43,6 +44,7 @@ export function ContactRequestSheet({ listing, open, onClose }: Props) {
     try {
       await contactApi.request(listing.id, allow);
       setSent(true);
+      track('contact_request_sent', { listingId: listing.id, allowSellerToContact: allow });
       void queryClient.invalidateQueries({
         queryKey: keys.contactState(listing.seller.id, listing.id),
       });

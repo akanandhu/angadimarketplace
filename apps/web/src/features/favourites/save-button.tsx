@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/components/ui/toast';
+import { track } from '@/lib/analytics';
 import { favouritesApi } from '@/lib/api/endpoints/listings';
 import { errorMessage } from '@/lib/api/errors';
 import { cn } from '@/lib/cn';
@@ -27,6 +28,7 @@ export function SaveButton({ listingId, saved, variant = 'overlay', className }:
 
   const toggle = (next: boolean) => {
     setIsSaved(next);
+    if (next) track('listing_saved', { listingId });
     (next ? favouritesApi.save(listingId) : favouritesApi.remove(listingId))
       .then(() => queryClient.invalidateQueries({ queryKey: keys.favourites }))
       .catch((error) => {

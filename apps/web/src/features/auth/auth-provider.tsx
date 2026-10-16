@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { identify, resetAnalytics } from '@/lib/analytics';
 import { refreshSession } from '@/lib/api/client';
 import { authApi, meApi } from '@/lib/api/endpoints/auth';
 import type { Me } from '@/lib/api/types';
@@ -69,12 +70,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(async () => {
     await authApi.logout();
+    resetAnalytics();
     queryClient.clear();
   }, [queryClient]);
 
   const onLoggedIn = useCallback(
     (user: Me) => {
       queryClient.setQueryData(keys.me, user);
+      identify(user.id);
       // Anything fetched anonymously (saved flags, contact state) is now stale.
       void queryClient.invalidateQueries({ predicate: (q) => q.queryKey[0] !== 'me' });
       setLoginOpen(false);

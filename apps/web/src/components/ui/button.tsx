@@ -30,7 +30,17 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = 'primary', size = 'md', loading, loadingText, block, className, children, disabled, ...props },
+  {
+    variant = 'primary',
+    size = 'md',
+    loading,
+    loadingText,
+    block,
+    className,
+    children,
+    disabled,
+    ...props
+  },
   ref,
 ) {
   return (

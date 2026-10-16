@@ -4,11 +4,17 @@ import { Logo } from './logo';
 
 const POPULAR = [
   { label: 'Used cars in Ernakulam', href: routes.browse({ districtSlug: 'ernakulam' }) },
-  { label: 'Used cars in Thiruvananthapuram', href: routes.browse({ districtSlug: 'thiruvananthapuram' }) },
+  {
+    label: 'Used cars in Thiruvananthapuram',
+    href: routes.browse({ districtSlug: 'thiruvananthapuram' }),
+  },
   { label: 'Used cars in Kozhikode', href: routes.browse({ districtSlug: 'kozhikode' }) },
   { label: 'Used Maruti Suzuki cars', href: routes.browse({ brandSlug: 'maruti-suzuki' }) },
   { label: 'Used Hyundai cars', href: routes.browse({ brandSlug: 'hyundai' }) },
-  { label: 'Used Toyota Innova Crysta', href: routes.browse({ brandSlug: 'toyota', modelSlug: 'innova-crysta' }) },
+  {
+    label: 'Used Toyota Innova Crysta',
+    href: routes.browse({ brandSlug: 'toyota', modelSlug: 'innova-crysta' }),
+  },
 ];
 
 /** Internal links double as SEO discovery paths. */

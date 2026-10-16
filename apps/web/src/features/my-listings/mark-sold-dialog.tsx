@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet } from '@/components/ui/sheet';
 import { useToast } from '@/components/ui/toast';
+import { track } from '@/lib/analytics';
 import { sellerApi } from '@/lib/api/endpoints/seller';
 import { errorMessage } from '@/lib/api/errors';
 
@@ -25,6 +26,7 @@ export function MarkSoldDialog({ listingId, open, onClose, onDone }: Props) {
     setLoading(true);
     try {
       await sellerApi.markSold(listingId);
+      track('listing_marked_sold', { listingId });
       await queryClient.invalidateQueries({ queryKey: ['my-listings'] });
       await queryClient.invalidateQueries({ queryKey: ['listings'] });
       toast('Marked as sold');

@@ -3,10 +3,7 @@ import type { PublicSeller } from './listing';
 
 export type ContactRequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
 export type RejectionReason =
-  | 'NO_LONGER_AVAILABLE'
-  | 'NOT_COMFORTABLE_SHARING'
-  | 'SUSPECTED_SPAM'
-  | 'OTHER';
+  'NO_LONGER_AVAILABLE' | 'NOT_COMFORTABLE_SHARING' | 'SUSPECTED_SPAM' | 'OTHER';
 
 export interface ContactDetails {
   phone: string;

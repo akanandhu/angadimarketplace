@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
+import { track } from '@/lib/analytics';
 import { sellerApi } from '@/lib/api/endpoints/seller';
 import { errorMessage } from '@/lib/api/errors';
 import { timeAgo } from '@/lib/format';
@@ -29,6 +30,7 @@ export function SellIntro() {
     setCreating(true);
     try {
       const draft = await sellerApi.createDraft();
+      track('listing_creation_started', { listingId: draft.id });
       queryClient.setQueryData(keys.myListing(draft.id), draft);
       router.replace(routes.sell(draft.id));
     } catch (error) {

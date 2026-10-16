@@ -4,6 +4,7 @@ import { AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { Gallery } from '@/features/listing-detail/gallery';
 import { ConditionSection, VehicleOverview } from '@/features/listing-detail/vehicle-overview';
+import { track } from '@/lib/analytics';
 import { sellerApi } from '@/lib/api/endpoints/seller';
 import { errorMessage, isApiError } from '@/lib/api/errors';
 import type { ListingStep, SellerListing } from '@/lib/api/types';
@@ -50,6 +51,7 @@ export function PreviewStep({
     setError(undefined);
     try {
       onSaved(await sellerApi.publish(listing.id));
+      track('listing_published', { listingId: listing.id });
       onPublished();
     } catch (err) {
       setError(

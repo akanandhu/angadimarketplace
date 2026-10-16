@@ -4,7 +4,11 @@ import type { Me, OtpRequestResult, VerifyOtpResult } from '../types';
 
 export const authApi = {
   requestOtp: (phone: string) =>
-    api<OtpRequestResult>('/auth/otp/request', { method: 'POST', body: { phone }, anonymous: true }),
+    api<OtpRequestResult>('/auth/otp/request', {
+      method: 'POST',
+      body: { phone },
+      anonymous: true,
+    }),
 
   async verifyOtp(requestId: string, otp: string): Promise<VerifyOtpResult> {
     const result = await api<VerifyOtpResult>('/auth/otp/verify', {

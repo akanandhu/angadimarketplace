@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState, ErrorState } from '@/components/ui/feedback';
 import { AdSlot } from '@/features/home/ad-slot';
 import { ListingCard, ListingCardSkeleton, ListingGrid } from '@/features/listings/listing-card';
+import { track } from '@/lib/analytics';
 import { listingsApi } from '@/lib/api/endpoints/listings';
 import { errorMessage } from '@/lib/api/errors';
 import type { ListingCard as Card, Page } from '@/lib/api/types';
@@ -40,8 +41,11 @@ export function BrowseScreen({ filters, initialData, heading, intro }: Props) {
   });
 
   const navigate = (next: ListingFilters) => router.push(routes.browse(next), { scroll: false });
-  const update = (patch: Partial<ListingFilters>) =>
-    navigate({ ...filters, ...patch, page: 'page' in patch ? patch.page : 1 });
+  const update = (patch: Partial<ListingFilters>) => {
+    if (!('page' in patch) && !('sort' in patch))
+      track('filter_applied', { filters: Object.keys(patch) });
+    return navigate({ ...filters, ...patch, page: 'page' in patch ? patch.page : 1 });
+  };
   const clearAll = () => navigate({ sort: filters.sort });
   const activeCount = countActiveFilters(filters);
 

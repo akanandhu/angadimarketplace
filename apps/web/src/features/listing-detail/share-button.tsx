@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet } from '@/components/ui/sheet';
 import { useToast } from '@/components/ui/toast';
+import { track } from '@/lib/analytics';
 import { SITE_URL } from '@/lib/env';
 import { shareUrl } from '@/lib/routes';
 
@@ -24,6 +25,7 @@ export function ShareButton({ slug, title, price, compact }: Props) {
   const text = `${title} for ${price} on Angadi`;
 
   const share = async () => {
+    track('listing_shared', { slug });
     if (Capacitor.isNativePlatform()) {
       const { Share } = await import('@capacitor/share');
       await Share.share({ title, text, url }).catch(() => undefined);

@@ -28,7 +28,8 @@ export interface ListingPatch {
 const base = (id: string) => `/me/listings/${id}`;
 
 export const sellerApi = {
-  createDraft: () => api<SellerListing>('/me/listings/drafts', { method: 'POST', body: { category: 'CARS' } }),
+  createDraft: () =>
+    api<SellerListing>('/me/listings/drafts', { method: 'POST', body: { category: 'CARS' } }),
   list: (status: ListingStatus, page = 1) =>
     apiPage<SellerListing>('/me/listings', { status, page, limit: 20 }),
   get: (id: string) => api<SellerListing>(base(id)),
@@ -51,9 +52,15 @@ export interface FileMeta {
 
 export const listingImagesApi = {
   requestUpload: (listingId: string, file: FileMeta) =>
-    api<PresignedUpload>(`${base(listingId)}/images/upload-request`, { method: 'POST', body: file }),
+    api<PresignedUpload>(`${base(listingId)}/images/upload-request`, {
+      method: 'POST',
+      body: file,
+    }),
   retry: (listingId: string, imageId: string, file: FileMeta) =>
-    api<PresignedUpload>(`${base(listingId)}/images/${imageId}/retry`, { method: 'POST', body: file }),
+    api<PresignedUpload>(`${base(listingId)}/images/${imageId}/retry`, {
+      method: 'POST',
+      body: file,
+    }),
   complete: (listingId: string, imageId: string) =>
     api<{ status: string }>(`${base(listingId)}/images/${imageId}/complete`, { method: 'POST' }),
   remove: (listingId: string, imageId: string) =>
@@ -83,8 +90,10 @@ export function uploadToStorage(
     const xhr = new XMLHttpRequest();
     xhr.open(upload.method, upload.url);
     Object.entries(upload.headers).forEach(([key, value]) => xhr.setRequestHeader(key, value));
-    xhr.upload.onprogress = (event) => event.lengthComputable && onProgress?.(event.loaded / event.total);
-    xhr.onload = () => (xhr.status < 300 ? resolve() : reject(new Error(`Upload failed (${xhr.status})`)));
+    xhr.upload.onprogress = (event) =>
+      event.lengthComputable && onProgress?.(event.loaded / event.total);
+    xhr.onload = () =>
+      xhr.status < 300 ? resolve() : reject(new Error(`Upload failed (${xhr.status})`));
     xhr.onerror = () => reject(new Error('Upload failed'));
     xhr.send(file);
   });
