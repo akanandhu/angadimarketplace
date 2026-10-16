@@ -15,5 +15,29 @@ services:
     ports:
       - '6380:6379'
 
+  # S3-compatible storage for local media uploads (stands in for S3 + CloudFront).
+  s3:
+    image: rustfs/rustfs:latest
+    environment:
+      RUSTFS_ACCESS_KEY: angadi
+      RUSTFS_SECRET_KEY: angadi-secret
+    ports:
+      - '9000:9000'
+    volumes:
+      - s3data:/data
+
+  s3-init:
+    image: amazon/aws-cli:latest
+    depends_on:
+      - s3
+    environment:
+      AWS_ACCESS_KEY_ID: angadi
+      AWS_SECRET_ACCESS_KEY: angadi-secret
+      AWS_DEFAULT_REGION: ap-south-1
+    volumes:
+      - ./infra/local:/init:ro
+    entrypoint: ['/bin/sh', '/init/s3-init.sh']
+
 volumes:
   pgdata:
+  s3data:
