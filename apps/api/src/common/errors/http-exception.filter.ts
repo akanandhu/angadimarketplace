@@ -41,7 +41,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const response = exception.getResponse() as { message?: string | string[] } | string;
       const raw = typeof response === 'string' ? response : response.message;
       const details = Array.isArray(raw) ? raw : null;
-      const message = Array.isArray(raw) ? 'Request validation failed' : (raw ?? exception.message);
+      const message =
+        status === HttpStatus.TOO_MANY_REQUESTS
+          ? 'Too many requests. Please try again shortly.'
+          : Array.isArray(raw)
+            ? 'Request validation failed'
+            : (raw ?? exception.message);
       return {
         status,
         body: { code: STATUS_CODES[status] ?? ErrorCode.INTERNAL_ERROR, message, details },
