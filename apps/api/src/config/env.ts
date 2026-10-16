@@ -11,11 +11,23 @@ export interface Env {
   SMS_PROVIDER: 'console' | 'msg91';
   AWS_REGION: string;
   S3_BUCKET: string;
+  S3_ENDPOINT: string;
+  S3_ACCESS_KEY_ID: string;
+  S3_SECRET_ACCESS_KEY: string;
   CDN_BASE_URL: string;
+  /** Dev only: process uploads through a BullMQ worker instead of S3 -> SQS -> Lambda. */
+  MEDIA_LOCAL_PROCESSING: boolean;
+  INTERNAL_API_SECRET: string;
   FIREBASE_SERVICE_ACCOUNT_JSON: string;
 }
 
-const REQUIRED = ['DATABASE_URL', 'REDIS_URL', 'JWT_ACCESS_SECRET', 'OTP_HASH_SECRET'] as const;
+const REQUIRED = [
+  'DATABASE_URL',
+  'REDIS_URL',
+  'JWT_ACCESS_SECRET',
+  'OTP_HASH_SECRET',
+  'INTERNAL_API_SECRET',
+] as const;
 
 export function validateEnv(raw: Record<string, unknown>): Env {
   const missing = REQUIRED.filter((key) => !raw[key]);
@@ -38,7 +50,12 @@ export function validateEnv(raw: Record<string, unknown>): Env {
     SMS_PROVIDER: str('SMS_PROVIDER', 'console') === 'msg91' ? 'msg91' : 'console',
     AWS_REGION: str('AWS_REGION', 'ap-south-1'),
     S3_BUCKET: str('S3_BUCKET', 'angadi-media-dev'),
-    CDN_BASE_URL: str('CDN_BASE_URL', 'http://localhost:4000/media'),
+    S3_ENDPOINT: str('S3_ENDPOINT'),
+    S3_ACCESS_KEY_ID: str('S3_ACCESS_KEY_ID'),
+    S3_SECRET_ACCESS_KEY: str('S3_SECRET_ACCESS_KEY'),
+    CDN_BASE_URL: str('CDN_BASE_URL', 'http://localhost:9000/angadi-media-dev'),
+    MEDIA_LOCAL_PROCESSING: str('MEDIA_LOCAL_PROCESSING') === 'true',
+    INTERNAL_API_SECRET: str('INTERNAL_API_SECRET'),
     FIREBASE_SERVICE_ACCOUNT_JSON: str('FIREBASE_SERVICE_ACCOUNT_JSON'),
   };
 }
