@@ -80,7 +80,7 @@ export function SellerListingCard({ listing }: { listing: SellerListing }) {
           <>
             <Link
               href={routes.sell(listing.id)}
-              className={`${link} border-brand bg-brand text-white hover:bg-brand-strong`}
+              className={`${link} border-ink bg-ink text-surface hover:bg-ink-soft`}
             >
               Continue editing
             </Link>

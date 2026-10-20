@@ -36,11 +36,11 @@ export function BottomNav() {
         }}
         aria-current={active ? 'page' : undefined}
         className={cn(
-          'flex flex-1 flex-col items-center gap-0.5 py-2 text-[11px] font-medium',
-          active ? 'text-brand' : 'text-muted',
+          'flex flex-1 flex-col items-center gap-0.5 py-2 text-xs font-medium',
+          active ? 'text-ink' : 'text-muted',
         )}
       >
-        <Icon className="size-5" aria-hidden />
+        <Icon className={cn('size-5', active && 'fill-gold')} aria-hidden />
         {label}
       </Link>
     );
@@ -57,7 +57,7 @@ export function BottomNav() {
         <button
           type="button"
           onClick={() => go(routes.sell(), true)}
-          className="flex flex-1 flex-col items-center pb-2 text-[11px] font-bold text-ink"
+          className="flex flex-1 flex-col items-center pb-2 text-xs font-semibold text-ink"
         >
           <span className="-mt-5 mb-0.5 flex size-12 items-center justify-center rounded-full border-4 border-surface bg-gold shadow-raised">
             <Plus className="size-6" strokeWidth={3} aria-hidden />

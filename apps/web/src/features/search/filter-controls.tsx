@@ -2,12 +2,14 @@ import { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 export const selectClass =
-  'h-10 w-full rounded-input border border-line-strong bg-surface px-2.5 text-sm focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none';
+  'h-10 w-full rounded-input border border-line-strong bg-surface px-2.5 text-sm focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none';
 
 export function FilterSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <fieldset className="space-y-2.5 border-b border-line py-4 last:border-0">
-      <legend className="float-left mb-2.5 w-full text-sm font-semibold">{title}</legend>
+      <legend className="float-left mb-2.5 w-full font-display text-[15px] font-bold tracking-tight">
+        {title}
+      </legend>
       <div className="clear-both space-y-2.5">{children}</div>
     </fieldset>
   );
@@ -76,8 +78,8 @@ export function ChipGroup(props: {
             className={cn(
               'rounded-full border px-3.5 py-1.5 text-sm font-medium',
               active
-                ? 'border-brand bg-brand text-white'
-                : 'border-line-strong bg-surface hover:border-brand',
+                ? 'border-ink bg-ink text-surface'
+                : 'border-line-strong bg-surface hover:border-ink',
             )}
           >
             {option.label}

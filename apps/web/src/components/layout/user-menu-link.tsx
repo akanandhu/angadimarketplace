@@ -13,7 +13,7 @@ export function UserMenuLink() {
       <button
         type="button"
         onClick={() => requireAuth()}
-        className="rounded-button px-3 py-2 text-sm font-semibold text-ink hover:bg-ink/5"
+        className="ml-1 rounded-full border border-line-strong px-4 py-2 text-sm font-semibold whitespace-nowrap text-ink hover:border-ink"
       >
         Login
       </button>
@@ -23,13 +23,13 @@ export function UserMenuLink() {
     <Link
       href={routes.profile()}
       aria-label="Your profile"
-      className="flex size-9 items-center justify-center overflow-hidden rounded-full bg-brand-soft text-brand"
+      className="flex size-9 items-center justify-center overflow-hidden rounded-full bg-gold-soft text-ink"
     >
       {me.profileImageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={me.profileImageUrl} alt="" className="size-full object-cover" />
       ) : me.name ? (
-        <span className="text-sm font-bold">{me.name.charAt(0).toUpperCase()}</span>
+        <span className="font-display text-sm font-bold">{me.name.charAt(0).toUpperCase()}</span>
       ) : (
         <User className="size-4" />
       )}

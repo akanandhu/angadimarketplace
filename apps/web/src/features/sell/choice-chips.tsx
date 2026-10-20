@@ -26,7 +26,7 @@ export function ChoiceChips<T extends string | number>({
           className={cn(
             'min-h-11 rounded-full border px-4 text-sm font-medium',
             value === option.value
-              ? 'border-brand bg-brand text-white'
+              ? 'border-ink bg-ink text-surface'
               : 'border-line-strong bg-surface hover:border-brand',
           )}
         >

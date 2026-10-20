@@ -1,45 +1,90 @@
+/* Hallmark · genre: editorial (calm marketplace) · macrostructure: Ecosystem Index (home)
+ * theme: custom · vibe: "backwater teal, turmeric, quiet trust" · design-system: design.md · designed-as-app
+ * paper oklch(96.8% 0.006 195) · ink oklch(26% 0.05 200) · accent oklch(84% 0.16 86) turmeric
+ * display: Bricolage Grotesque · body: Geist · outlier: Anek Malayalam (footer wordmark only)
+ * nav: two-tier marketplace bar + district strip · footer: Ft1 mast-headed + Malayalam wordmark
+ */
 @import 'tailwindcss';
 
-/* Angadi design tokens. Provisional palette: navy, Kerala green, muted gold, warm off-white. */
+/* Angadi design tokens. Token names are shared by every screen; see /design.md. */
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-geist), ui-sans-serif, sans-serif;
+  --font-malayalam: var(--font-anek-malayalam), var(--font-geist), sans-serif;
 
-  --color-ink: #102a43;
-  --color-ink-soft: #243b53;
-  --color-brand: #1f7a4d;
-  --color-brand-strong: #17603c;
-  --color-brand-soft: #e7f3ec;
-  --color-gold: #c9971c;
-  --color-gold-soft: #fbf3dc;
-  --color-canvas: #faf7f2;
-  --color-surface: #ffffff;
-  --color-line: #e6e1d8;
-  --color-line-strong: #d3ccbf;
-  --color-muted: #5f6b7a;
-  --color-success: #15803d;
-  --color-success-soft: #e8f5ec;
-  --color-warning: #b45309;
-  --color-warning-soft: #fdf1e2;
-  --color-danger: #b91c1c;
-  --color-danger-soft: #fdecec;
+  /* Backwater teal ink + neutrals tinted toward it. */
+  --color-ink: oklch(26% 0.05 200);
+  --color-ink-soft: oklch(36% 0.045 200);
+  --color-canvas: oklch(96.8% 0.006 195);
+  --color-surface: oklch(99.5% 0.002 195);
+  --color-line: oklch(90.5% 0.01 195);
+  --color-line-strong: oklch(80% 0.016 195);
+  --color-muted: oklch(48% 0.022 200);
 
-  --radius-input: 9px;
+  /* Palm green: links, active filters, focus. */
+  --color-brand: oklch(48% 0.12 162);
+  --color-brand-strong: oklch(40% 0.105 162);
+  --color-brand-soft: oklch(94.5% 0.03 162);
+
+  /* Turmeric: the Sell action and dealer tags. Never a section fill. */
+  --color-gold: oklch(84% 0.16 86);
+  --color-gold-strong: oklch(78% 0.16 80);
+  --color-gold-soft: oklch(95.5% 0.045 92);
+  --color-gold-ink: oklch(45% 0.1 70);
+
+  --color-success: oklch(50% 0.13 150);
+  --color-success-soft: oklch(95% 0.035 150);
+  --color-warning: oklch(52% 0.13 60);
+  --color-warning-soft: oklch(95.5% 0.035 70);
+  --color-danger: oklch(52% 0.19 27);
+  --color-danger-soft: oklch(95.5% 0.025 27);
+
+  --radius-input: 10px;
   --radius-card: 12px;
-  --radius-button: 9px;
+  --radius-button: 10px;
 
-  --shadow-card: 0 1px 2px rgb(16 42 67 / 0.06);
-  --shadow-raised: 0 8px 24px rgb(16 42 67 / 0.12);
+  --shadow-card: 0 1px 2px oklch(26% 0.05 200 / 0.05), 0 4px 16px -8px oklch(26% 0.05 200 / 0.1);
+  --shadow-raised: 0 16px 40px -16px oklch(26% 0.05 200 / 0.22);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
   html {
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-canvas text-ink antialiased;
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-style: normal;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
   }
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand;
+  }
+}
+
+/* Big, tabular rupee figures. Prices are the loudest thing on a listing. */
+@utility price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -49,4 +94,13 @@
 
 @utility safe-top {
   padding-top: env(safe-area-inset-top);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
 }

@@ -1,13 +1,15 @@
 'use client';
 
-import { Bell, Heart, MessageSquareText, Plus } from 'lucide-react';
+import { Bell, Heart, MessageSquareText } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/features/auth/auth-provider';
+import { usePathname } from 'next/navigation';
 import { useUnreadCount } from '@/features/notifications/use-unread-count';
 import { SearchBar } from '@/features/search/search-bar';
 import { routes } from '@/lib/routes';
+import { DistrictStrip } from './district-strip';
 import { Logo } from './logo';
+import { PublicOnly } from './public-only';
+import { SellButton } from './sell-button';
 import { UserMenuLink } from './user-menu-link';
 
 function BellLink() {
@@ -16,11 +18,11 @@ function BellLink() {
     <Link
       href={routes.notifications()}
       aria-label={unread ? `Notifications, ${unread} unread` : 'Notifications'}
-      className="relative rounded-full p-2 text-ink hover:bg-ink/5"
+      className="relative flex size-10 items-center justify-center rounded-full text-ink hover:bg-ink/5"
     >
       <Bell className="size-5" />
       {unread > 0 && (
-        <span className="absolute top-1 right-1 min-w-4 rounded-full bg-danger px-1 text-center text-[10px] leading-4 font-bold text-white">
+        <span className="absolute top-1 right-1 min-w-4 rounded-full bg-danger px-1 text-center text-[10px] leading-4 font-bold text-surface">
           {unread > 9 ? '9+' : unread}
         </span>
       )}
@@ -28,40 +30,43 @@ function BellLink() {
   );
 }
 
-export function SiteHeader() {
-  const router = useRouter();
-  const { requireAuth } = useAuth();
-  const sell = () => requireAuth(() => router.push(routes.sell()));
+const navLink =
+  'hidden items-center gap-1.5 rounded-button px-2.5 py-2 text-sm font-medium whitespace-nowrap text-ink hover:bg-ink/5 lg:flex';
 
+/** Two-tier marketplace bar: identity + search + account, then a district strip on discovery pages. */
+export function SiteHeader() {
+  // Home carries its own large search field; the header copy would be a duplicate on phones.
+  const isHome = usePathname() === '/';
   return (
-    <header className="safe-top sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1320px] items-center gap-4 px-4 md:px-6">
-        <Logo />
-        <SearchBar compact className="hidden max-w-2xl md:grid" />
-        <nav className="ml-auto flex items-center gap-1" aria-label="Account">
-          <Link
-            href={routes.favourites()}
-            className="hidden items-center gap-1.5 rounded-button px-3 py-2 text-sm font-medium hover:bg-ink/5 md:flex"
-          >
-            <Heart className="size-4" /> Saved
-          </Link>
-          <Link
-            href={routes.requests()}
-            className="hidden items-center gap-1.5 rounded-button px-3 py-2 text-sm font-medium hover:bg-ink/5 md:flex"
-          >
-            <MessageSquareText className="size-4" /> Requests
-          </Link>
-          <BellLink />
-          <UserMenuLink />
-          <button
-            type="button"
-            onClick={sell}
-            className="ml-2 hidden h-10 items-center gap-1.5 rounded-full border-2 border-gold bg-gold-soft px-5 text-sm font-extrabold tracking-wide text-ink hover:bg-gold md:flex"
-          >
-            <Plus className="size-4" strokeWidth={3} /> SELL
-          </button>
-        </nav>
-      </div>
-    </header>
+    <>
+      <header className="safe-top sticky top-0 z-40 border-b border-line bg-surface">
+        <div className="mx-auto flex h-16 max-w-[1320px] items-center gap-3 px-4 md:gap-5 md:px-6">
+          <Logo />
+          <SearchBar variant="compact" className="hidden md:flex" />
+          <nav className="ml-auto flex items-center gap-1" aria-label="Account">
+            <Link href={routes.favourites()} className={navLink}>
+              <Heart className="size-4" aria-hidden /> Saved
+            </Link>
+            <Link href={routes.requests()} className={navLink}>
+              <MessageSquareText className="size-4" aria-hidden /> Requests
+            </Link>
+            <BellLink />
+            <UserMenuLink />
+            <SellButton className="ml-2 hidden md:flex" />
+          </nav>
+        </div>
+      </header>
+      {/* Second tier scrolls away so sticky filters and price panels keep their 4rem offset. */}
+      <PublicOnly>
+        <div className="border-b border-line bg-surface">
+          {!isHome && (
+            <div className="px-4 pt-3 pb-1 md:hidden">
+              <SearchBar variant="compact" />
+            </div>
+          )}
+          <DistrictStrip />
+        </div>
+      </PublicOnly>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { forwardRef, InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } fr
 import { cn } from '@/lib/cn';
 
 const control =
-  'w-full rounded-input border border-line-strong bg-surface px-3 text-[15px] text-ink placeholder:text-muted/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-canvas aria-[invalid=true]:border-danger';
+  'w-full rounded-input border border-line-strong bg-surface px-3 text-[15px] text-ink placeholder:text-muted/70 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink disabled:bg-canvas aria-[invalid=true]:border-danger';
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...props }, ref) {

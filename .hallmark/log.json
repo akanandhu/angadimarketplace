@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2026-10-17",
+    "scope": "app",
+    "macrostructure": "Ecosystem Index (home) · Catalogue (browse) · Split (detail)",
+    "theme": "custom",
+    "theme_axes": "light / grotesk-sans display / warm accent (turmeric) on cool teal ink",
+    "vibe": "backwater teal, turmeric, quiet trust",
+    "enrichment": "Malayalam wordmark (Anek Malayalam) in footer",
+    "nav": "two-tier marketplace bar + district strip",
+    "footer": "Ft1 mast-headed + edge-to-edge Malayalam wordmark",
+    "brief": "Remove neo-brutalism for a 30+ Kerala audience; add അങ്ങാടി footer typography"
+  },
+  {
+    "date": "2026-10-17",
+    "scope": "app",
+    "macrostructure": "Ecosystem Index (home) · Catalogue (browse) · Split (detail)",
+    "theme": "custom",
+    "theme_axes": "light / grotesk-sans display / warm accent (turmeric) on cool teal ink",
+    "vibe": "backwater teal, turmeric, number plates",
+    "enrichment": "none (typography + RTO plate motif)",
+    "nav": "two-tier marketplace bar + district strip",
+    "footer": "Ft1 mast-headed",
+    "brief": "Angadi · Kerala used-car marketplace, OLX as structural reference"
+  }
+]

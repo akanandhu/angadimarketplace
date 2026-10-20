@@ -18,7 +18,7 @@ export function UnavailableListingState({ info }: { info?: UnavailableListing })
       action={
         <Link
           href={similar}
-          className="inline-flex h-11 items-center rounded-button bg-brand px-5 text-sm font-semibold text-white"
+          className="inline-flex h-11 items-center rounded-button bg-ink px-5 text-sm font-semibold text-surface hover:bg-ink-soft"
         >
           Browse similar cars
         </Link>

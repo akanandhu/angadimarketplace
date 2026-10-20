@@ -97,7 +97,7 @@ export function PreviewStep({
       <div className="overflow-hidden rounded-card border border-line bg-surface">
         <Gallery images={images} title={previewTitle(listing)} />
         <div className="space-y-1 p-4">
-          <p className="text-2xl font-extrabold">{formatPrice(listing.price)}</p>
+          <p className="text-2xl font-bold">{formatPrice(listing.price)}</p>
           {listing.isNegotiable && <p className="text-sm font-medium text-brand">Negotiable</p>}
           <h2 className="text-lg font-semibold">{previewTitle(listing)}</h2>
           <p className="text-sm text-muted">{listing.district?.name ?? 'District not set'}</p>

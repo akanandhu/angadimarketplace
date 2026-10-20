@@ -10,7 +10,7 @@ export function SellerCard({ seller }: { seller: PublicSeller }) {
   const isDealer = seller.type === 'DEALER';
   return (
     <div className="flex items-start gap-3">
-      <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-soft text-brand">
+      <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gold-soft text-ink">
         {seller.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={seller.logoUrl} alt="" className="size-full object-cover" />

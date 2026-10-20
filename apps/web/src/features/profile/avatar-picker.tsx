@@ -16,7 +16,7 @@ export function AvatarPicker({ kind, url, label }: Props) {
   const { upload, uploading, error } = useUserImageUpload(kind);
   return (
     <div className="flex items-center gap-4">
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-full bg-brand-soft text-brand">
+      <div className="relative size-20 shrink-0 overflow-hidden rounded-full bg-gold-soft text-ink">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {url ? (
           <img src={url} alt="" className="size-full object-cover" />

@@ -21,7 +21,7 @@ export function DistrictSelect({ id, value, onChange, by = 'id', placeholder, cl
       value={value}
       onChange={(event) => onChange(event.target.value)}
       className={cn(
-        'h-11 w-full rounded-input border border-line-strong bg-surface px-3 text-[15px] focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none',
+        'h-11 w-full rounded-input border border-line-strong bg-surface px-3 text-[15px] focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none',
         className,
       )}
     >

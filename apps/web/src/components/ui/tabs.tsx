@@ -22,9 +22,9 @@ export function Tabs<T extends string>({ tabs, value, onChange, label }: TabsPro
           aria-selected={tab.value === value}
           onClick={() => onChange(tab.value)}
           className={cn(
-            '-mb-px shrink-0 border-b-2 px-4 py-3 text-sm font-semibold transition-colors',
+            '-mb-px shrink-0 border-b-[3px] px-4 py-3 text-sm font-semibold whitespace-nowrap transition-colors',
             tab.value === value
-              ? 'border-brand text-brand'
+              ? 'border-ink text-ink'
               : 'border-transparent text-muted hover:text-ink',
           )}
         >

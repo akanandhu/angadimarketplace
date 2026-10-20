@@ -45,7 +45,7 @@ export function DealerScreen({ slug, initialDealer, initialListings }: Props) {
       ) : (
         <header className="flex flex-col gap-4 rounded-card border border-line bg-surface p-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-soft text-brand">
+            <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gold-soft text-ink">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {d.logoUrl ? (
                 <img src={d.logoUrl} alt="" className="size-full object-cover" />

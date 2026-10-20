@@ -45,7 +45,7 @@ export function MyListingsScreen() {
         <h1 className="text-2xl font-bold">My listings</h1>
         <Link
           href={routes.sell()}
-          className="inline-flex h-10 items-center rounded-button bg-brand px-4 text-sm font-semibold text-white"
+          className="inline-flex h-10 items-center rounded-button bg-ink px-4 text-sm font-semibold text-surface hover:bg-ink-soft"
         >
           Sell a car
         </Link>
@@ -75,7 +75,7 @@ export function MyListingsScreen() {
             tab === 'ACTIVE' && (
               <Link
                 href={routes.sell()}
-                className="inline-flex h-11 items-center rounded-button bg-brand px-5 text-sm font-semibold text-white"
+                className="inline-flex h-11 items-center rounded-button bg-ink px-5 text-sm font-semibold text-surface hover:bg-ink-soft"
               >
                 Sell a car
               </Link>

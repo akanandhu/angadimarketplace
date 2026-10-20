@@ -1,65 +1,102 @@
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { Plate } from '@/components/ui/plate';
 import { routes } from '@/lib/routes';
 import { KERALA_DISTRICTS } from '@/lib/search/districts';
 
 const BRANDS = [
   ['Maruti Suzuki', 'maruti-suzuki'],
   ['Hyundai', 'hyundai'],
-  ['Tata', 'tata'],
   ['Toyota', 'toyota'],
   ['Honda', 'honda'],
+  ['Tata', 'tata'],
   ['Mahindra', 'mahindra'],
   ['Kia', 'kia'],
   ['Renault', 'renault'],
 ] as const;
 
+function SectionHead({
+  id,
+  title,
+  href,
+  more,
+}: {
+  id: string;
+  title: string;
+  href: string;
+  more: string;
+}) {
+  return (
+    <div className="mb-4 flex items-end justify-between gap-4">
+      <h2 id={id} className="text-2xl font-bold md:text-[1.75rem]">
+        {title}
+      </h2>
+      <Link
+        href={href}
+        className="flex shrink-0 items-center gap-1 text-sm font-semibold whitespace-nowrap text-ink hover:text-brand"
+      >
+        {more} <ArrowRight className="size-4" aria-hidden />
+      </Link>
+    </div>
+  );
+}
+
+/** Typographic brand index: names set large, no fake logos. */
 export function BrowseByBrand() {
   return (
     <section aria-labelledby="brands-heading">
-      <h2 id="brands-heading" className="mb-3 text-lg font-bold">
-        Browse by brand
-      </h2>
-      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-9 md:px-0">
-        {BRANDS.map(([name, slug]) => (
-          <Link
-            key={slug}
-            href={routes.browse({ brandSlug: slug })}
-            className="flex h-20 w-28 shrink-0 flex-col items-center justify-center gap-1 rounded-card border border-line bg-surface text-center text-sm font-semibold hover:border-brand md:w-auto"
-          >
-            <span className="flex size-8 items-center justify-center rounded-full bg-brand-soft text-xs font-extrabold text-brand">
-              {name.charAt(0)}
-            </span>
-            {name}
-          </Link>
+      <SectionHead
+        id="brands-heading"
+        title="Browse by brand"
+        href={routes.browse()}
+        more="All brands"
+      />
+      <ul className="flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-line py-4">
+        {BRANDS.map(([name, slug], index) => (
+          <li key={slug} className="flex items-baseline gap-2">
+            {index > 0 && (
+              <span className="font-display text-xl text-line-strong md:text-3xl" aria-hidden>
+                /
+              </span>
+            )}
+            <Link
+              href={routes.browse({ brandSlug: slug })}
+              className="font-display text-xl font-semibold tracking-tight whitespace-nowrap decoration-gold decoration-[3px] underline-offset-[6px] hover:underline md:text-3xl"
+            >
+              {name}
+            </Link>
+          </li>
         ))}
-        <Link
-          href={routes.browse()}
-          className="flex h-20 w-28 shrink-0 items-center justify-center rounded-card border border-dashed border-line-strong text-sm font-semibold text-brand md:w-auto"
-        >
-          More brands
-        </Link>
-      </div>
+      </ul>
     </section>
   );
 }
 
+/** Districts as the KL registration plates every Malayali already reads at a glance. */
 export function BrowseByDistrict() {
   return (
     <section aria-labelledby="districts-heading">
-      <h2 id="districts-heading" className="mb-3 text-lg font-bold">
-        Browse by district
-      </h2>
-      <div className="-mx-4 grid auto-cols-max grid-flow-col grid-rows-2 gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex md:flex-wrap md:px-0">
-        {KERALA_DISTRICTS.map(({ name, slug }) => (
-          <Link
-            key={slug}
-            href={routes.browse({ districtSlug: slug })}
-            className="rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium hover:border-brand hover:text-brand"
-          >
-            {name}
-          </Link>
+      <SectionHead
+        id="districts-heading"
+        title="Cars near you"
+        href={routes.browse()}
+        more="All Kerala"
+      />
+      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7">
+        {KERALA_DISTRICTS.map(({ name, slug, rto }) => (
+          <li key={slug} className="min-w-0">
+            <Link
+              href={routes.browse({ districtSlug: slug })}
+              className="flex h-full flex-col items-start gap-2.5 rounded-card border border-line bg-surface p-3.5 shadow-card transition-shadow hover:shadow-raised"
+            >
+              <Plate>{rto}</Plate>
+              <span className="w-full truncate text-[15px] font-semibold">{name}</span>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
+
+export { SectionHead };

@@ -87,7 +87,7 @@ export function ActiveFilterChips({
           <button
             type="button"
             onClick={() => onChange(chip.clear)}
-            className="flex items-center gap-1 rounded-full border border-brand/30 bg-brand-soft px-3 py-1 text-sm font-medium text-brand hover:bg-brand hover:text-white"
+            className="flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand-soft py-1.5 pr-2.5 pl-3.5 text-sm font-medium whitespace-nowrap text-brand-strong hover:border-brand"
           >
             {chip.text}
             <X className="size-3.5" aria-label="Remove filter" />

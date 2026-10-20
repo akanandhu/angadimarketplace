@@ -6,12 +6,13 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'gold' | 'outline'
 type Size = 'sm' | 'md' | 'lg';
 
 const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-brand text-white hover:bg-brand-strong disabled:bg-brand/50',
-  secondary: 'bg-ink text-white hover:bg-ink-soft disabled:bg-ink/50',
-  outline: 'border border-line-strong bg-surface text-ink hover:bg-canvas disabled:text-muted',
+  primary: 'bg-ink text-surface hover:bg-ink-soft disabled:bg-ink/40',
+  secondary:
+    'border border-ink bg-surface text-ink hover:bg-canvas disabled:border-line-strong disabled:text-muted',
+  outline: 'border border-line-strong bg-surface text-ink hover:border-ink disabled:text-muted',
   ghost: 'text-ink hover:bg-ink/5 disabled:text-muted',
-  danger: 'bg-danger text-white hover:bg-danger/90 disabled:bg-danger/50',
-  gold: 'bg-gold text-ink hover:bg-gold/90 disabled:bg-gold/50',
+  danger: 'bg-danger text-surface hover:bg-danger/90 disabled:bg-danger/50',
+  gold: 'bg-gold text-ink hover:bg-gold-strong disabled:bg-gold/50',
 };
 
 const SIZES: Record<Size, string> = {
@@ -48,7 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       disabled={disabled || loading}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-button font-semibold transition-colors disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 rounded-button font-semibold whitespace-nowrap transition-colors disabled:cursor-not-allowed',
         VARIANTS[variant],
         SIZES[size],
         block && 'w-full',

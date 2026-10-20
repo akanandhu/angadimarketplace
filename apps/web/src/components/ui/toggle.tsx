@@ -26,12 +26,12 @@ export function Toggle({ checked, onChange, label, description, id }: ToggleProp
         onClick={() => onChange(!checked)}
         className={cn(
           'relative h-7 w-12 shrink-0 rounded-full transition-colors',
-          checked ? 'bg-brand' : 'bg-line-strong',
+          checked ? 'bg-ink' : 'bg-line-strong',
         )}
       >
         <span
           className={cn(
-            'absolute top-0.5 left-0.5 size-6 rounded-full bg-white shadow transition-transform',
+            'absolute top-0.5 left-0.5 size-6 rounded-full bg-surface shadow transition-transform',
             checked && 'translate-x-5',
           )}
         />
@@ -55,7 +55,7 @@ export function Checkbox({ checked, onChange, label, id }: CheckboxProps) {
         type="checkbox"
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
-        className="mt-0.5 size-5 shrink-0 accent-brand"
+        className="mt-0.5 size-5 shrink-0 accent-ink"
       />
       <span className="font-medium">{label}</span>
     </label>

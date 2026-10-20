@@ -54,7 +54,7 @@ export function BrowseScreen({ filters, initialData, heading, intro }: Props) {
       aria-label="Sort by"
       value={filters.sort ?? 'newest'}
       onChange={(event) => update({ sort: event.target.value as SortOption })}
-      className="h-10 rounded-input border border-line-strong bg-surface px-2.5 text-sm font-medium"
+      className="h-10 rounded-input border border-line-strong bg-surface px-2.5 text-sm font-medium focus:border-ink focus:outline-none"
     >
       {Object.entries(SORT_LABELS).map(([value, text]) => (
         <option key={value} value={value}>
@@ -73,17 +73,24 @@ export function BrowseScreen({ filters, initialData, heading, intro }: Props) {
       </aside>
 
       <section className="min-w-0 flex-1 space-y-4">
-        <header className="space-y-1">
-          <h1 className="text-xl font-bold md:text-2xl">{title}</h1>
-          {intro && <p className="text-sm text-muted">{intro}</p>}
+        <header className="space-y-2 pb-1">
+          <h1 className="text-[1.75rem] leading-tight font-bold md:text-[2.25rem]">{title}</h1>
+          {intro && <p className="max-w-[65ch] text-sm text-ink-soft">{intro}</p>}
           <p className="text-sm text-muted" aria-live="polite">
-            {results.data
-              ? `${formatNumber(results.data.meta.total)} ${results.data.meta.total === 1 ? 'listing' : 'listings'}`
-              : 'Loading…'}
+            {results.data ? (
+              <>
+                <span className="price text-base text-ink">
+                  {formatNumber(results.data.meta.total)}
+                </span>{' '}
+                {results.data.meta.total === 1 ? 'car' : 'cars'} for sale
+              </>
+            ) : (
+              'Loading…'
+            )}
           </p>
         </header>
 
-        <div className="sticky top-16 z-30 -mx-4 flex gap-2 border-b border-line bg-canvas/95 px-4 py-2 backdrop-blur lg:hidden">
+        <div className="sticky top-16 z-30 -mx-4 flex gap-2 border-b border-line bg-canvas px-4 py-2 lg:hidden">
           <Button variant="outline" size="sm" onClick={() => setSheetOpen(true)}>
             <SlidersHorizontal className="size-4" /> Filters{activeCount ? ` (${activeCount})` : ''}
           </Button>

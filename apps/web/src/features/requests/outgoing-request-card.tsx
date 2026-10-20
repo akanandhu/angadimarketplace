@@ -81,7 +81,7 @@ export function OutgoingRequestCard({ request }: { request: OutgoingRequest }) {
               request.listing.slug && (
                 <Link
                   href={routes.listing(request.listing.slug)}
-                  className="inline-flex h-9 items-center rounded-button bg-brand px-3 font-semibold text-white"
+                  className="inline-flex h-9 items-center rounded-button bg-ink px-3 font-semibold text-surface hover:bg-ink-soft"
                 >
                   Request again
                 </Link>

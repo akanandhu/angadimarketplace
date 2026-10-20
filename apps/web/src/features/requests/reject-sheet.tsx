@@ -55,7 +55,7 @@ export function RejectSheet({ open, onClose, onConfirm }: Props) {
         {(Object.keys(REJECTION_LABELS) as RejectionReason[]).map((value) => (
           <label
             key={value}
-            className="flex cursor-pointer items-center gap-3 rounded-input border border-line px-3 py-3 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft"
+            className="flex cursor-pointer items-center gap-3 rounded-input border border-line px-3 py-3 text-sm has-[:checked]:border-ink has-[:checked]:bg-gold-soft"
           >
             <input
               type="radio"

@@ -1,49 +1,85 @@
 import Link from 'next/link';
 import { routes } from '@/lib/routes';
+import { KERALA_DISTRICTS } from '@/lib/search/districts';
 import { Logo } from './logo';
 
 const POPULAR = [
-  { label: 'Used cars in Ernakulam', href: routes.browse({ districtSlug: 'ernakulam' }) },
+  { label: 'Maruti Suzuki', href: routes.browse({ brandSlug: 'maruti-suzuki' }) },
+  { label: 'Hyundai', href: routes.browse({ brandSlug: 'hyundai' }) },
   {
-    label: 'Used cars in Thiruvananthapuram',
-    href: routes.browse({ districtSlug: 'thiruvananthapuram' }),
-  },
-  { label: 'Used cars in Kozhikode', href: routes.browse({ districtSlug: 'kozhikode' }) },
-  { label: 'Used Maruti Suzuki cars', href: routes.browse({ brandSlug: 'maruti-suzuki' }) },
-  { label: 'Used Hyundai cars', href: routes.browse({ brandSlug: 'hyundai' }) },
-  {
-    label: 'Used Toyota Innova Crysta',
+    label: 'Toyota Innova Crysta',
     href: routes.browse({ brandSlug: 'toyota', modelSlug: 'innova-crysta' }),
   },
+  { label: 'Tata', href: routes.browse({ brandSlug: 'tata' }) },
+  { label: 'Mahindra', href: routes.browse({ brandSlug: 'mahindra' }) },
 ];
 
-/** Internal links double as SEO discovery paths. */
+const linkClass =
+  'whitespace-nowrap text-surface/75 underline-offset-4 hover:text-gold hover:underline';
+
+/** Edge-to-edge അങ്ങാടി set tone-on-tone: the brand name in the language of its buyers. */
+function MalayalamWordmark() {
+  // Anek Malayalam at 125% width renders this word ~5.4× its font size, so 18cqi fills the container.
+  return (
+    <div className="mx-auto max-w-[1320px] overflow-hidden px-4 md:px-6" aria-hidden>
+      <p
+        lang="ml"
+        className="@container font-malayalam font-bold whitespace-nowrap text-ink-soft select-none [font-stretch:125%]"
+      >
+        <span className="-mb-[0.22em] block text-[18cqi] leading-[1.05]">അങ്ങാടി</span>
+      </p>
+    </div>
+  );
+}
+
+/** Mast-headed close. The link runs double as SEO discovery paths. */
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-line bg-surface">
-      <div className="mx-auto grid max-w-[1320px] gap-8 px-4 py-10 md:grid-cols-3 md:px-6">
-        <div className="space-y-3">
-          <Logo />
-          <p className="max-w-xs text-sm text-muted">
-            Kerala&apos;s local marketplace for second-hand cars. Sell locally. Buy confidently.
+    <footer className="mt-20 bg-ink text-surface">
+      <div className="mx-auto grid max-w-[1320px] gap-10 px-4 pt-12 pb-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:px-6">
+        <div className="space-y-4">
+          <Logo inverted />
+          <p className="max-w-sm font-display text-2xl leading-tight font-semibold tracking-tight">
+            Kerala&apos;s used-car market. Your number stays private until you choose to share it.
           </p>
         </div>
-        <nav aria-label="Popular searches" className="md:col-span-2">
-          <h2 className="mb-3 text-sm font-semibold">Popular searches</h2>
-          <ul className="grid gap-2 text-sm text-muted sm:grid-cols-2">
-            {POPULAR.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="hover:text-brand">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="space-y-6 text-sm">
+          <nav aria-label="Used cars by district">
+            <h2 className="mb-2 text-xs font-semibold tracking-[0.12em] text-gold uppercase">
+              Used cars by district
+            </h2>
+            <ul className="flex flex-wrap gap-x-4 gap-y-1.5">
+              {KERALA_DISTRICTS.map(({ name, slug }) => (
+                <li key={slug}>
+                  <Link href={routes.browse({ districtSlug: slug })} className={linkClass}>
+                    {name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="Popular searches">
+            <h2 className="mb-2 text-xs font-semibold tracking-[0.12em] text-gold uppercase">
+              Popular searches
+            </h2>
+            <ul className="flex flex-wrap gap-x-4 gap-y-1.5">
+              {POPULAR.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={linkClass}>
+                    Used {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
-      <p className="border-t border-line px-4 py-4 text-center text-xs text-muted">
-        © {new Date().getFullYear()} Angadi Marketplace · angadimarketplace.com
-      </p>
+      <div className="mx-auto max-w-[1320px] px-4 md:px-6">
+        <p className="border-t border-surface/15 py-5 text-xs text-surface/60">
+          © {new Date().getFullYear()} Angadi Marketplace · angadimarketplace.com
+        </p>
+      </div>
+      <MalayalamWordmark />
     </footer>
   );
 }

@@ -104,12 +104,14 @@ export function ListingDetailScreen({
             {listing.description && (
               <section
                 aria-labelledby="description-heading"
-                className="rounded-card border border-line bg-surface p-4"
+                className="rounded-card border border-line bg-surface p-4 md:p-5"
               >
-                <h2 id="description-heading" className="mb-2 font-semibold">
+                <h2 id="description-heading" className="mb-2 text-lg font-bold">
                   Description
                 </h2>
-                <p className="text-sm whitespace-pre-line text-ink-soft">{listing.description}</p>
+                <p className="max-w-[65ch] text-[15px] leading-relaxed whitespace-pre-line text-ink-soft">
+                  {listing.description}
+                </p>
               </section>
             )}
             {car && <ConditionSection car={car} />}
@@ -126,7 +128,7 @@ export function ListingDetailScreen({
         </div>
 
         <aside className="hidden md:block">
-          <div className="sticky top-20 space-y-4 rounded-card border border-line bg-surface p-5 shadow-card">
+          <div className="sticky top-20 space-y-4 rounded-card border border-line bg-surface p-5 shadow-raised">
             <Summary listing={listing} price={price} />
             <div className="border-t border-line pt-4">
               <SellerCard seller={listing.seller} />
@@ -152,10 +154,12 @@ function Summary({ listing, price }: { listing: ListingDetail; price: string }) 
   return (
     <>
       <div>
-        <p className="text-2xl font-extrabold md:text-3xl">{price}</p>
-        {listing.isNegotiable && <p className="text-sm font-medium text-brand">Negotiable</p>}
-        <h1 className="mt-1 text-lg font-semibold">{listing.title}</h1>
-        <p className="text-sm text-muted">
+        <p className="price text-[2rem] leading-none md:text-[2.5rem]">{price}</p>
+        {listing.isNegotiable && (
+          <p className="mt-1.5 text-sm font-semibold text-brand">Price negotiable</p>
+        )}
+        <h1 className="mt-3 text-xl leading-tight font-bold">{listing.title}</h1>
+        <p className="mt-1 text-sm text-muted">
           {listing.district?.name} · Posted {timeAgo(listing.publishedAt)}
         </p>
       </div>

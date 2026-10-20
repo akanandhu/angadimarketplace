@@ -19,7 +19,7 @@ export function Stepper({ step }: { step: number }) {
         {SELL_STEPS.map((name, index) => (
           <span
             key={name}
-            className={`h-1.5 flex-1 rounded-full ${index <= step ? 'bg-brand' : 'bg-line'}`}
+            className={`h-1.5 flex-1 rounded-full ${index <= step ? 'bg-ink' : 'bg-line'}`}
           />
         ))}
       </div>

@@ -73,7 +73,7 @@ export function ReportSheet({
         {REASONS.map(([value, text]) => (
           <label
             key={value}
-            className="flex cursor-pointer items-center gap-3 rounded-input border border-line px-3 py-2.5 text-sm has-[:checked]:border-brand has-[:checked]:bg-brand-soft"
+            className="flex cursor-pointer items-center gap-3 rounded-input border border-line px-3 py-2.5 text-sm has-[:checked]:border-ink has-[:checked]:bg-gold-soft"
           >
             <input
               type="radio"

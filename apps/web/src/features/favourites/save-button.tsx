@@ -51,8 +51,8 @@ export function SaveButton({ listingId, saved, variant = 'overlay', className }:
       aria-label={isSaved ? 'Remove from saved' : 'Save'}
       className={cn(
         variant === 'overlay'
-          ? 'flex size-9 items-center justify-center rounded-full bg-surface/90 shadow-card hover:bg-surface'
-          : 'flex items-center gap-1.5 rounded-button border border-line-strong px-3 py-2 text-sm font-semibold hover:bg-canvas',
+          ? 'flex size-9 items-center justify-center rounded-full border border-line bg-surface hover:border-ink'
+          : 'flex items-center gap-1.5 rounded-button border border-line-strong px-3 py-2 text-sm font-semibold whitespace-nowrap hover:border-ink',
         className,
       )}
     >

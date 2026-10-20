@@ -1,35 +1,41 @@
-import { Calendar, Fuel, Gauge, MapPin, Settings2, Users } from 'lucide-react';
+import { Plate } from '@/components/ui/plate';
 import type { PublicCar } from '@/lib/api/types';
 import { formatKm, label, ordinalOwner } from '@/lib/format';
 
-/** Year / KM / fuel / transmission / ownership / RTO. Registration is shown as RTO only. */
+/** Spec sheet: year / KM / fuel / transmission / ownership / RTO. Registration is shown as RTO only. */
 export function VehicleOverview({ car }: { car: PublicCar }) {
   const items = [
-    { icon: Calendar, name: 'Year', value: String(car.manufacturingYear) },
-    { icon: Gauge, name: 'KM driven', value: formatKm(car.kmDriven) },
-    { icon: Fuel, name: 'Fuel', value: label(car.fuelType) },
-    { icon: Settings2, name: 'Transmission', value: label(car.transmission) },
-    { icon: Users, name: 'Ownership', value: ordinalOwner(car.numberOfOwners) },
-    { icon: MapPin, name: 'RTO', value: `${car.rtoDisplay} ••••••` },
+    { name: 'Year', value: String(car.manufacturingYear) },
+    { name: 'KM driven', value: formatKm(car.kmDriven) },
+    { name: 'Fuel', value: label(car.fuelType) },
+    { name: 'Transmission', value: label(car.transmission) },
+    { name: 'Ownership', value: ordinalOwner(car.numberOfOwners) },
   ];
   return (
     <section
       aria-labelledby="overview-heading"
-      className="rounded-card border border-line bg-surface p-4"
+      className="rounded-card border border-line bg-surface p-4 md:p-5"
     >
-      <h2 id="overview-heading" className="mb-3 font-semibold">
+      <h2 id="overview-heading" className="mb-4 text-lg font-bold">
         Vehicle overview
       </h2>
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
-        {items.map(({ icon: Icon, name, value }) => (
-          <div key={name} className="flex items-start gap-2.5">
-            <Icon className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
-            <div>
-              <dt className="text-xs text-muted">{name}</dt>
-              <dd className="text-sm font-semibold">{value}</dd>
-            </div>
+      <dl className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3">
+        {items.map(({ name, value }) => (
+          <div key={name} className="border-r border-b border-line px-3 py-3">
+            <dt className="text-[11px] font-medium tracking-[0.08em] text-muted uppercase">
+              {name}
+            </dt>
+            <dd className="mt-1 font-display text-lg font-bold tracking-tight tabular-nums">
+              {value}
+            </dd>
           </div>
         ))}
+        <div className="border-r border-b border-line px-3 py-3">
+          <dt className="text-[11px] font-medium tracking-[0.08em] text-muted uppercase">RTO</dt>
+          <dd className="mt-1.5">
+            <Plate size="lg">{car.rtoDisplay} ••••</Plate>
+          </dd>
+        </div>
       </dl>
     </section>
   );
@@ -49,16 +55,16 @@ export function ConditionSection({ car }: { car: PublicCar }) {
   return (
     <section
       aria-labelledby="condition-heading"
-      className="rounded-card border border-line bg-surface p-4"
+      className="rounded-card border border-line bg-surface p-4 md:p-5"
     >
-      <h2 id="condition-heading" className="mb-3 font-semibold">
+      <h2 id="condition-heading" className="mb-2 text-lg font-bold">
         Condition
       </h2>
       <dl className="divide-y divide-line text-sm">
         {rows.map(([name, value]) => (
-          <div key={name} className="flex justify-between gap-4 py-2">
+          <div key={name} className="flex justify-between gap-4 py-2.5">
             <dt className="text-muted">{name}</dt>
-            <dd className="text-right font-medium">{value}</dd>
+            <dd className="text-right font-semibold">{value}</dd>
           </div>
         ))}
       </dl>

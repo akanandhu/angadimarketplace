@@ -18,11 +18,11 @@ export function EmptyState({ icon: Icon, title, description, action, className }
   return (
     <div className={cn('flex flex-col items-center px-6 py-14 text-center', className)}>
       {Icon && (
-        <div className="mb-4 rounded-full bg-brand-soft p-4 text-brand">
+        <div className="mb-4 rounded-full bg-gold-soft p-4 text-ink">
           <Icon className="size-7" aria-hidden />
         </div>
       )}
-      <h2 className="text-lg font-semibold">{title}</h2>
+      <h2 className="text-xl font-bold">{title}</h2>
       {description && <p className="mt-1.5 max-w-sm text-sm text-muted">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
@@ -48,8 +48,8 @@ const TONES: Record<Tone, string> = {
   success: 'bg-success-soft text-success border-success/20',
   warning: 'bg-warning-soft text-warning border-warning/20',
   danger: 'bg-danger-soft text-danger border-danger/20',
-  gold: 'bg-gold-soft text-ink border-gold/30',
-  ink: 'bg-ink text-white border-ink',
+  gold: 'bg-gold text-ink border-gold',
+  ink: 'bg-ink text-surface border-ink',
 };
 
 /** Status pill; always carries text so colour is never the only signal. */
@@ -57,7 +57,7 @@ export function Badge({ tone = 'neutral', children }: { tone?: Tone; children: R
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-semibold',
+        'inline-flex items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-xs font-semibold whitespace-nowrap',
         TONES[tone],
       )}
     >

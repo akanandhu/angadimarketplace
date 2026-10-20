@@ -15,7 +15,7 @@ export function PublishSuccess({ listing }: { listing: SellerListing }) {
       <h1 className="mt-4 text-2xl font-bold">Your car is live!</h1>
       <p className="mt-1 text-sm text-muted">{listing.title}</p>
       <div className="mt-8 grid w-full gap-3">
-        <Link href={routes.listing(slug)} className={`${button} bg-brand text-white`}>
+        <Link href={routes.listing(slug)} className={`${button} bg-ink text-surface`}>
           View listing
         </Link>
         <a

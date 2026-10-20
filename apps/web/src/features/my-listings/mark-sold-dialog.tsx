@@ -49,7 +49,7 @@ export function MarkSoldDialog({ listingId, open, onClose, onDone }: Props) {
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button block variant="secondary" loading={loading} onClick={confirm}>
+          <Button block loading={loading} onClick={confirm}>
             Mark as sold
           </Button>
         </>
